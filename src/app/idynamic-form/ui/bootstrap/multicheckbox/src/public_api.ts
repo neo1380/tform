@@ -1,2 +1,2 @@
-export { FormlyBootstrapMultiCheckboxModule } from './multicheckbox.module';
-export { FormlyFieldMultiCheckbox } from './multicheckbox.type';
+export { DynamicBootstrapMultiCheckboxModule } from "./multicheckbox.module";
+export { DynamicFieldMultiCheckbox } from "./multicheckbox.type";

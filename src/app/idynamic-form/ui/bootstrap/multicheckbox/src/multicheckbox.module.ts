@@ -1,29 +1,29 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ReactiveFormsModule } from "@angular/forms";
-import { FormlyModule } from "../../../../../idynamic-form/core/src/lib/core";
-import { FormlySelectModule } from "../../../../core/select";
-import { FormlyBootstrapFormFieldModule } from "../../form-field";
+import { DynamicModule } from "../../../../../idynamic-form/core/src/lib/core";
+import { DynamicSelectModule } from "../../../../core/select";
+import { DynamicBootstrapFormFieldModule } from "../../form-field";
 
-import { FormlyFieldMultiCheckbox } from "./multicheckbox.type";
+import { DynamicFieldMultiCheckbox } from "./multicheckbox.type";
 
 @NgModule({
-  declarations: [FormlyFieldMultiCheckbox],
+  declarations: [DynamicFieldMultiCheckbox],
   imports: [
     CommonModule,
     ReactiveFormsModule,
 
-    FormlyBootstrapFormFieldModule,
-    FormlySelectModule,
-    FormlyModule.forChild({
+    DynamicBootstrapFormFieldModule,
+    DynamicSelectModule,
+    DynamicModule.forChild({
       types: [
         {
           name: "multicheckbox",
-          component: FormlyFieldMultiCheckbox,
+          component: DynamicFieldMultiCheckbox,
           wrappers: ["form-field"],
         },
       ],
     }),
   ],
 })
-export class FormlyBootstrapMultiCheckboxModule {}
+export class DynamicBootstrapMultiCheckboxModule {}

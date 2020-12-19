@@ -1,18 +1,20 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { FieldType } from './field.type';
+import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { DomSanitizer } from "@angular/platform-browser";
+import { FieldType } from "./field.type";
 
 @Component({
-  selector: 'formly-template',
+  selector: "formly-template",
   template: `<div [innerHtml]="template"></div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormlyTemplateType extends FieldType {
+export class DynamicTemplateType extends FieldType {
   get template() {
     if (this.field && this.field.template !== this.innerHtml.template) {
       this.innerHtml = {
         template: this.field.template,
-        content: this.to.safeHtml ? this.sanitizer.bypassSecurityTrustHtml(this.field.template) : this.field.template,
+        content: this.to.safeHtml
+          ? this.sanitizer.bypassSecurityTrustHtml(this.field.template)
+          : this.field.template,
       };
     }
 

@@ -1,8 +1,8 @@
 import { Component } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import {
-  FormlyFieldConfig,
-  FormlyFormOptions,
+  DynamicFieldConfig,
+  DynamicFormOptions,
 } from "../app/idynamic-form/core/src/lib/core";
 
 @Component({
@@ -13,18 +13,18 @@ import {
 export class AppComponent {
   form = new FormGroup({});
   model: any = {};
-  options: FormlyFormOptions = {
+  options: DynamicFormOptions = {
     formState: {
       awesomeIsForced: false,
     },
   };
-  fields: FormlyFieldConfig[] = [
+  fields: DynamicFieldConfig[] = [
     {
       key: "text",
       type: "input",
       templateOptions: {
         label: "Text",
-        placeholder: "Formly is terrific!",
+        placeholder: "Dynamic is terrific!",
         required: true,
       },
     },

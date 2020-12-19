@@ -1,10 +1,10 @@
-import { FormlyFieldConfig } from "../../../../../idynamic-form/core/src/lib/core";
-import { createFormlyFieldComponent } from "@ngx-formly/core/testing";
-import { FormlyBootstrapTextAreaModule } from "@ngx-formly/bootstrap/textarea";
+import { DynamicFieldConfig } from "../../../../../idynamic-form/core/src/lib/core";
+import { createDynamicFieldComponent } from "@ngx-formly/core/testing";
+import { DynamicBootstrapTextAreaModule } from "@ngx-formly/bootstrap/textarea";
 
-const renderComponent = (field: FormlyFieldConfig) => {
-  return createFormlyFieldComponent(field, {
-    imports: [FormlyBootstrapTextAreaModule],
+const renderComponent = (field: DynamicFieldConfig) => {
+  return createDynamicFieldComponent(field, {
+    imports: [DynamicBootstrapTextAreaModule],
   });
 };
 

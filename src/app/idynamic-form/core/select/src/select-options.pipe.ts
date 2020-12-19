@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from "@angular/core";
 import { Observable, of as observableOf } from "rxjs";
 import { map } from "rxjs/operators";
-import { FormlyFieldConfig } from "../../../core/src/lib/core";
+import { DynamicFieldConfig } from "../../../core/src/lib/core";
 
 interface ISelectOption {
   label: string;
@@ -18,10 +18,10 @@ type ITransformOption = Partial<{
 }>;
 
 @Pipe({ name: "formlySelectOptions" })
-export class FormlySelectOptionsPipe implements PipeTransform {
+export class DynamicSelectOptionsPipe implements PipeTransform {
   transform(
     options: any,
-    field?: FormlyFieldConfig
+    field?: DynamicFieldConfig
   ): Observable<ISelectOption[]> {
     if (!(options instanceof Observable)) {
       options = observableOf(options);
@@ -34,7 +34,7 @@ export class FormlySelectOptionsPipe implements PipeTransform {
 
   private transformOptions(
     options: any[],
-    field?: FormlyFieldConfig
+    field?: DynamicFieldConfig
   ): ISelectOption[] {
     const to = this.transformSelectProps(field);
 
@@ -84,7 +84,7 @@ export class FormlySelectOptionsPipe implements PipeTransform {
     return option;
   }
 
-  private transformSelectProps(field: FormlyFieldConfig): ITransformOption {
+  private transformSelectProps(field: DynamicFieldConfig): ITransformOption {
     const to = field && field.templateOptions ? field.templateOptions : {};
     const selectPropFn = (prop: any) =>
       typeof prop === "function" ? prop : (o) => o[prop];

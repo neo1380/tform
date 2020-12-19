@@ -2,7 +2,7 @@ import { Directive } from "@angular/core";
 import { FormArray } from "@angular/forms";
 import { FieldType } from "./field.type";
 import { clone, assignFieldValue, getFieldValue } from "../utils";
-import { FormlyFieldConfig, FormlyExtension } from "../models";
+import { DynamicFieldConfig, DynamicExtension } from "../models";
 import {
   registerControl,
   unregisterControl,
@@ -11,15 +11,15 @@ import {
 
 @Directive({})
 export abstract class FieldArrayType<
-    F extends FormlyFieldConfig = FormlyFieldConfig
+    F extends DynamicFieldConfig = DynamicFieldConfig
   >
   extends FieldType<F>
-  implements FormlyExtension {
+  implements DynamicExtension {
   get formControl() {
     return this.field.formControl as FormArray;
   }
 
-  onPopulate(field: FormlyFieldConfig) {
+  onPopulate(field: DynamicFieldConfig) {
     if (!field.formControl && field.key) {
       const control = findControl(field);
       registerControl(

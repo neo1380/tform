@@ -1,24 +1,24 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormlyModule } from "../../../../../idynamic-form/core/src/lib/core";
+import { DynamicModule } from "../../../../../idynamic-form/core/src/lib/core";
 import { ReactiveFormsModule } from "@angular/forms";
 
-import { FormlyBootstrapFormFieldModule } from "../../form-field";
+import { DynamicBootstrapFormFieldModule } from "../../form-field";
 
-import { FormlyFieldInput } from "./input.type";
+import { DynamicFieldInput } from "./input.type";
 
 @NgModule({
-  declarations: [FormlyFieldInput],
+  declarations: [DynamicFieldInput],
   imports: [
     CommonModule,
     ReactiveFormsModule,
 
-    FormlyBootstrapFormFieldModule,
-    FormlyModule.forChild({
+    DynamicBootstrapFormFieldModule,
+    DynamicModule.forChild({
       types: [
         {
           name: "input",
-          component: FormlyFieldInput,
+          component: DynamicFieldInput,
           wrappers: ["form-field"],
         },
         { name: "string", extends: "input" },
@@ -43,6 +43,6 @@ import { FormlyFieldInput } from "./input.type";
       ],
     }),
   ],
-  entryComponents: [FormlyFieldInput],
+  entryComponents: [DynamicFieldInput],
 })
-export class FormlyBootstrapInputModule {}
+export class DynamicBootstrapInputModule {}

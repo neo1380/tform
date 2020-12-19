@@ -1,18 +1,18 @@
 import { FormControl } from "@angular/forms";
-import { FormlyFieldConfig } from "@ngx-formly/core";
+import { DynamicFieldConfig } from "@ngx-formly/core";
 import { createComponent } from "@ngx-formly/core/testing";
 
 const renderComponent = (
-  field: FormlyFieldConfig,
+  field: DynamicFieldConfig,
   { template }: { template?: string } = {}
 ) => {
-  return createComponent<{ field: FormlyFieldConfig }>({
+  return createComponent<{ field: DynamicFieldConfig }>({
     template: template || '<input type="text" [formlyAttributes]="field">',
     inputs: { field },
   });
 };
 
-describe("FormlyAttributes Component", () => {
+describe("DynamicAttributes Component", () => {
   describe("templateOptions attributes", () => {
     it("should set built-in attributes if present", () => {
       const { query } = renderComponent({

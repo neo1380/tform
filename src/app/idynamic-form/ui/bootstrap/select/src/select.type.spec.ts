@@ -1,11 +1,11 @@
-import { FormlyFieldConfig } from "../../../../../idynamic-form/core/src/lib/core";
+import { DynamicFieldConfig } from "../../../../../idynamic-form/core/src/lib/core";
 import { of } from "rxjs";
-import { FormlyBootstrapSelectModule } from "@ngx-formly/bootstrap/select";
-import { createFormlyFieldComponent } from "@ngx-formly/core/testing";
+import { DynamicBootstrapSelectModule } from "@ngx-formly/bootstrap/select";
+import { createDynamicFieldComponent } from "@ngx-formly/core/testing";
 
-const renderComponent = (field: FormlyFieldConfig) => {
-  return createFormlyFieldComponent(field, {
-    imports: [FormlyBootstrapSelectModule],
+const renderComponent = (field: DynamicFieldConfig) => {
+  return createDynamicFieldComponent(field, {
+    imports: [DynamicBootstrapSelectModule],
   });
 };
 

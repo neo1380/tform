@@ -1,16 +1,16 @@
-import { FormlyFieldConfig } from "@ngx-formly/core";
-import { FormlyFieldConfigCache } from "../../models";
+import { DynamicFieldConfig } from "@ngx-formly/core";
+import { DynamicFieldConfigCache } from "../../models";
 import {
   MockComponent,
   createBuilder,
-  createFormlyFieldComponent,
-  FormlyInputModule,
+  createDynamicFieldComponent,
+  DynamicInputModule,
 } from "@ngx-formly/core/testing";
 import { Subject } from "rxjs";
 
-function renderComponent(field: FormlyFieldConfig) {
-  return createFormlyFieldComponent(field, {
-    imports: [FormlyInputModule],
+function renderComponent(field: DynamicFieldConfig) {
+  return createDynamicFieldComponent(field, {
+    imports: [DynamicInputModule],
   });
 }
 
@@ -18,7 +18,7 @@ function buildField({
   model,
   options,
   ...field
-}: FormlyFieldConfig): FormlyFieldConfigCache {
+}: DynamicFieldConfig): DynamicFieldConfigCache {
   const builder = createBuilder({
     extensions: ["core"],
     onInit: (c) =>

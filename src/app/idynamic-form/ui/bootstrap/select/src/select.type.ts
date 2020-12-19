@@ -108,7 +108,7 @@ import { take } from "rxjs/operators";
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormlyFieldSelect extends FieldType {
+export class DynamicFieldSelect extends FieldType {
   defaultOptions = {
     templateOptions: {
       options: [],

@@ -24,7 +24,7 @@ import { FieldType } from "../../../../../idynamic-form/core/src/lib/core";
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormlyFieldInput extends FieldType {
+export class DynamicFieldInput extends FieldType {
   get type() {
     return this.to.type || "text";
   }

@@ -1,13 +1,13 @@
-import { ValidationErrors, AbstractControl } from '@angular/forms';
-import { FieldType } from './../templates/field.type';
-import { FormlyFieldConfig } from './fieldconfig';
-import { Observable } from 'rxjs';
+import { ValidationErrors, AbstractControl } from "@angular/forms";
+import { FieldType } from "./../templates/field.type";
+import { DynamicFieldConfig } from "./fieldconfig";
+import { Observable } from "rxjs";
 
 /** @experimental */
-export interface FormlyExtension {
-  prePopulate?(field: FormlyFieldConfig): void;
-  onPopulate?(field: FormlyFieldConfig): void;
-  postPopulate?(field: FormlyFieldConfig): void;
+export interface DynamicExtension {
+  prePopulate?(field: DynamicFieldConfig): void;
+  onPopulate?(field: DynamicFieldConfig): void;
+  postPopulate?(field: DynamicFieldConfig): void;
 }
 
 export interface TypeOption {
@@ -15,7 +15,7 @@ export interface TypeOption {
   component?: any;
   wrappers?: string[];
   extends?: string;
-  defaultOptions?: FormlyFieldConfig;
+  defaultOptions?: DynamicFieldConfig;
 }
 
 export interface WrapperOption {
@@ -26,8 +26,8 @@ export interface WrapperOption {
 
 export type FieldValidatorFn = (
   c: AbstractControl,
-  field: FormlyFieldConfig,
-  options?: { [id: string]: any },
+  field: DynamicFieldConfig,
+  options?: { [id: string]: any }
 ) => ValidationErrors | null;
 
 export interface ValidatorOption {
@@ -38,12 +38,14 @@ export interface ValidatorOption {
 
 export interface ExtensionOption {
   name: string;
-  extension: FormlyExtension;
+  extension: DynamicExtension;
 }
 
 export interface ValidationMessageOption {
   name: string;
-  message: string | ((error: any, field: FormlyFieldConfig) => string | Observable<string>);
+  message:
+    | string
+    | ((error: any, field: DynamicFieldConfig) => string | Observable<string>);
 }
 
 export interface ConfigOption {
@@ -63,7 +65,7 @@ export interface ConfigOption {
      *
      * Defaults to `changeDetectionCheck`.
      */
-    checkExpressionOn?: 'modelChange' | 'changeDetectionCheck';
+    checkExpressionOn?: "modelChange" | "changeDetectionCheck";
 
     /**
      * Whether to lazily render field components or not when marked as hidden.

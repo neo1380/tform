@@ -38,7 +38,7 @@ import { FieldType } from "../../../../../idynamic-form/core/src/lib/core";
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormlyFieldCheckbox extends FieldType {
+export class DynamicFieldCheckbox extends FieldType {
   defaultOptions = {
     templateOptions: {
       indeterminate: true,

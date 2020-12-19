@@ -1,16 +1,21 @@
-import { FormGroup, FormArray, AbstractControl, FormGroupDirective } from '@angular/forms';
-import { Subject, Observable } from 'rxjs';
-import { FieldType } from '../templates/field.type';
-import { ValidationMessageOption } from '../models';
+import {
+  FormGroup,
+  FormArray,
+  AbstractControl,
+  FormGroupDirective,
+} from "@angular/forms";
+import { Subject, Observable } from "rxjs";
+import { FieldType } from "../templates/field.type";
+import { ValidationMessageOption } from "../models";
 
-export interface FormlyFieldConfig {
+export interface DynamicFieldConfig {
   /**
    * The key that relates to the model. This will link the field value to the model
    */
   key?: string | number | string[];
 
   /**
-   * This should be a formly-field type added either by you or a plugin. More information over at Creating Formly Fields.
+   * This should be a formly-field type added either by you or a plugin. More information over at Creating Dynamic Fields.
    */
   type?: string;
 
@@ -32,7 +37,7 @@ export interface FormlyFieldConfig {
   /**
    * This is reserved for the templates. Any template-specific options go in here. Look at your specific template implementation to know the options required for this.
    */
-  templateOptions?: FormlyTemplateOptions;
+  templateOptions?: DynamicTemplateOptions;
 
   /**
    * An object with a few useful properties
@@ -41,7 +46,7 @@ export interface FormlyFieldConfig {
    */
   validation?: {
     messages?: {
-      [messageProperties: string]: ValidationMessageOption['message'];
+      [messageProperties: string]: ValidationMessageOption["message"];
     };
     show?: boolean;
     [additionalProperties: string]: any;
@@ -54,7 +59,7 @@ export interface FormlyFieldConfig {
    *
    * {
    *   validation?: (string | ValidatorFn)[];
-   *   [key: string]: ((control: AbstractControl, field: FormlyFieldConfig) => boolean) | ({ expression: (control: AbstractControl, field: FormlyFieldConfig) => boolean, message: ValidationMessageOption['message'] });
+   *   [key: string]: ((control: AbstractControl, field: DynamicFieldConfig) => boolean) | ({ expression: (control: AbstractControl, field: DynamicFieldConfig) => boolean, message: ValidationMessageOption['message'] });
    * }
    */
   validators?: any;
@@ -65,7 +70,7 @@ export interface FormlyFieldConfig {
    *
    * {
    *   validation?: (string | AsyncValidatorFn)[];
-   *   [key: string]: ((control: AbstractControl, field: FormlyFieldConfig) => Promise<boolean> | Observable<boolean>) | ({ expression: (control: AbstractControl, field: FormlyFieldConfig) => Promise<boolean> | Observable<boolean>, message: string });
+   *   [key: string]: ((control: AbstractControl, field: DynamicFieldConfig) => Promise<boolean> | Observable<boolean>) | ({ expression: (control: AbstractControl, field: DynamicFieldConfig) => Promise<boolean> | Observable<boolean>, message: string });
    * }
    */
   asyncValidators?: any;
@@ -90,13 +95,19 @@ export interface FormlyFieldConfig {
   /**
    * Conditionally hiding Field based on values from other Fields
    */
-  hideExpression?: boolean | string | ((model: any, formState: any, field?: FormlyFieldConfig) => boolean);
+  hideExpression?:
+    | boolean
+    | string
+    | ((model: any, formState: any, field?: DynamicFieldConfig) => boolean);
 
   /**
    * An object where the key is a property to be set on the main field config and the value is an expression used to assign that property.
    */
   expressionProperties?: {
-    [property: string]: string | ((model: any, formState: any, field?: FormlyFieldConfig) => any) | Observable<any>;
+    [property: string]:
+      | string
+      | ((model: any, formState: any, field?: DynamicFieldConfig) => any)
+      | Observable<any>;
   };
 
   /**
@@ -113,9 +124,9 @@ export interface FormlyFieldConfig {
    * A field group is a way to group fields together, making advanced layout very simple.
    * It can also be used to group fields that are associated with the same model (useful if it's different than the model for the rest of the fields).
    */
-  fieldGroup?: FormlyFieldConfig[];
+  fieldGroup?: DynamicFieldConfig[];
 
-  fieldArray?: FormlyFieldConfig;
+  fieldArray?: DynamicFieldConfig;
 
   /**
    * Whether to focus or blur the element field. Defaults to false. If you wish this to be conditional use `expressionProperties`
@@ -134,10 +145,10 @@ export interface FormlyFieldConfig {
     /**
      * @see https://angular.io/api/forms/AbstractControl#updateOn
      */
-    updateOn?: 'change' | 'blur' | 'submit';
+    updateOn?: "change" | "blur" | "submit";
   };
 
-  hooks?: FormlyHookConfig;
+  hooks?: DynamicHookConfig;
 
   /**
    * Array of functions to execute, as a pipeline, whenever the model updates, usually via user input.
@@ -152,12 +163,12 @@ export interface FormlyFieldConfig {
   /**
    * The parent field.
    */
-  readonly parent?: FormlyFieldConfig;
+  readonly parent?: DynamicFieldConfig;
 
   /**
    * The form options.
    */
-  readonly options?: FormlyFormOptions;
+  readonly options?: DynamicFormOptions;
 
   /**
    * The parent form.
@@ -174,9 +185,12 @@ export interface FormlyFieldConfig {
   optionsTypes?: string[];
 }
 
-export type FormlyAttributeEvent = (field: FormlyFieldConfig, event?: any) => void;
+export type DynamicAttributeEvent = (
+  field: DynamicFieldConfig,
+  event?: any
+) => void;
 
-export interface FormlyTemplateOptions {
+export interface DynamicTemplateOptions {
   type?: string;
   label?: string;
   placeholder?: string;
@@ -196,40 +210,40 @@ export interface FormlyTemplateOptions {
   readonly?: boolean;
   attributes?: { [key: string]: string | number };
   step?: number;
-  focus?: FormlyAttributeEvent;
-  blur?: FormlyAttributeEvent;
-  keyup?: FormlyAttributeEvent;
-  keydown?: FormlyAttributeEvent;
-  click?: FormlyAttributeEvent;
-  change?: FormlyAttributeEvent;
-  keypress?: FormlyAttributeEvent;
+  focus?: DynamicAttributeEvent;
+  blur?: DynamicAttributeEvent;
+  keyup?: DynamicAttributeEvent;
+  keydown?: DynamicAttributeEvent;
+  click?: DynamicAttributeEvent;
+  change?: DynamicAttributeEvent;
+  keypress?: DynamicAttributeEvent;
   [additionalProperties: string]: any;
 }
 
-export type FormlyHookFn = (field?: FormlyFieldConfig) => void;
+export type DynamicHookFn = (field?: DynamicFieldConfig) => void;
 
-export interface FormlyHookConfig {
-  onInit?: FormlyHookFn;
-  onChanges?: FormlyHookFn;
-  afterContentInit?: FormlyHookFn;
-  afterViewInit?: FormlyHookFn;
-  onDestroy?: FormlyHookFn;
+export interface DynamicHookConfig {
+  onInit?: DynamicHookFn;
+  onChanges?: DynamicHookFn;
+  afterContentInit?: DynamicHookFn;
+  afterViewInit?: DynamicHookFn;
+  onDestroy?: DynamicHookFn;
 }
 
-export interface FormlyFormOptions {
+export interface DynamicFormOptions {
   updateInitialValue?: () => void;
   resetModel?: (model?: any) => void;
   formState?: any;
-  fieldChanges?: Subject<FormlyValueChangeEvent>;
+  fieldChanges?: Subject<DynamicValueChangeEvent>;
   showError?: (field: FieldType) => boolean;
-  build?: (field: FormlyFieldConfig) => FormlyFieldConfig;
-  checkExpressions?: (field: FormlyFieldConfig) => void;
-  detectChanges?: (field: FormlyFieldConfig) => void;
+  build?: (field: DynamicFieldConfig) => DynamicFieldConfig;
+  checkExpressions?: (field: DynamicFieldConfig) => void;
+  detectChanges?: (field: DynamicFieldConfig) => void;
   parentForm?: FormGroupDirective | null;
 }
 
-export interface FormlyValueChangeEvent {
-  field: FormlyFieldConfig;
+export interface DynamicValueChangeEvent {
+  field: DynamicFieldConfig;
   type: string;
   value: any;
   [meta: string]: any;

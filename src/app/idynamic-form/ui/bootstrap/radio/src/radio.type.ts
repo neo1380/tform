@@ -44,7 +44,7 @@ import { FieldType } from "../../../../../idynamic-form/core/src/lib/core";
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormlyFieldRadio extends FieldType {
+export class DynamicFieldRadio extends FieldType {
   defaultOptions = {
     templateOptions: {
       options: [],

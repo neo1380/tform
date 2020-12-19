@@ -1,5 +1,5 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { FormlyFieldConfigCache } from "../../models";
+import { DynamicFieldConfigCache } from "../../models";
 import { createBuilder } from "@ngx-formly/core/testing";
 
 function buildField({
@@ -7,7 +7,7 @@ function buildField({
   options,
   form,
   ...field
-}: FormlyFieldConfigCache): FormlyFieldConfigCache {
+}: DynamicFieldConfigCache): DynamicFieldConfigCache {
   const builder = createBuilder({
     extensions: ["core", "validation", "form"],
   });

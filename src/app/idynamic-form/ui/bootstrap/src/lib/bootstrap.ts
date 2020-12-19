@@ -1,1 +1,1 @@
-export { FormlyBootstrapModule } from './bootstrap.module';
+export { DynamicBootstrapModule } from "./bootstrap.module";

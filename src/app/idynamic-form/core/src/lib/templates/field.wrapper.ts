@@ -1,10 +1,10 @@
 import { ViewContainerRef, ViewChild, Directive } from "@angular/core";
 import { FieldType } from "./field.type";
-import { FormlyFieldConfig } from "../models";
+import { DynamicFieldConfig } from "../models";
 
 @Directive({})
 export abstract class FieldWrapper<
-  F extends FormlyFieldConfig = FormlyFieldConfig
+  F extends DynamicFieldConfig = DynamicFieldConfig
 > extends FieldType<F> {
   @ViewChild("fieldComponent", { read: ViewContainerRef, static: true })
   fieldComponent: ViewContainerRef;

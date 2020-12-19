@@ -1,2 +1,2 @@
-export { FormlyBootstrapTextAreaModule } from './textarea.module';
-export { FormlyFieldTextArea } from './textarea.type';
+export { DynamicBootstrapTextAreaModule } from "./textarea.module";
+export { DynamicFieldTextArea } from "./textarea.type";

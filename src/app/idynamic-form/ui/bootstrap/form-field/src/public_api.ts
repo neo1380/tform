@@ -1,1 +1,1 @@
-export { FormlyBootstrapFormFieldModule } from './form-field.module';
+export { DynamicBootstrapFormFieldModule } from "./form-field.module";

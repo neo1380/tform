@@ -23,4 +23,4 @@ import { FieldWrapper } from "../../../../../idynamic-form/core/src/lib/core";
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormlyWrapperFormField extends FieldWrapper {}
+export class DynamicWrapperFormField extends FieldWrapper {}

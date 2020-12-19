@@ -1,30 +1,30 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormlyModule } from "../../../../../idynamic-form/core/src/lib/core";
+import { DynamicModule } from "../../../../../idynamic-form/core/src/lib/core";
 import { ReactiveFormsModule } from "@angular/forms";
-import { FormlySelectModule } from "../../../../core/select";
+import { DynamicSelectModule } from "../../../../core/select";
 
-import { FormlyBootstrapFormFieldModule } from "../../form-field";
-import { FormlyFieldRadio } from "./radio.type";
+import { DynamicBootstrapFormFieldModule } from "../../form-field";
+import { DynamicFieldRadio } from "./radio.type";
 
 @NgModule({
-  declarations: [FormlyFieldRadio],
+  declarations: [DynamicFieldRadio],
   imports: [
     CommonModule,
     ReactiveFormsModule,
 
-    FormlyBootstrapFormFieldModule,
-    FormlySelectModule,
-    FormlyModule.forChild({
+    DynamicBootstrapFormFieldModule,
+    DynamicSelectModule,
+    DynamicModule.forChild({
       types: [
         {
           name: "radio",
-          component: FormlyFieldRadio,
+          component: DynamicFieldRadio,
           wrappers: ["form-field"],
         },
       ],
     }),
   ],
-  entryComponents: [FormlyFieldRadio],
+  entryComponents: [DynamicFieldRadio],
 })
-export class FormlyBootstrapRadioModule {}
+export class DynamicBootstrapRadioModule {}

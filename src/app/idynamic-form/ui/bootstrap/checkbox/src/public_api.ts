@@ -1,2 +1,2 @@
-export { FormlyBootstrapCheckboxModule } from './checkbox.module';
-export { FormlyFieldCheckbox } from './checkbox.type';
+export { DynamicBootstrapCheckboxModule } from "./checkbox.module";
+export { DynamicFieldCheckbox } from "./checkbox.type";

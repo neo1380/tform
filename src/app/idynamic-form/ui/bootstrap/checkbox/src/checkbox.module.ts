@@ -1,23 +1,23 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormlyModule } from "../../../../../idynamic-form/core/src/lib/core";
+import { DynamicModule } from "../../../../../idynamic-form/core/src/lib/core";
 import { ReactiveFormsModule } from "@angular/forms";
 
-import { FormlyBootstrapFormFieldModule } from "../../form-field";
+import { DynamicBootstrapFormFieldModule } from "../../form-field";
 
-import { FormlyFieldCheckbox } from "./checkbox.type";
+import { DynamicFieldCheckbox } from "./checkbox.type";
 
 @NgModule({
-  declarations: [FormlyFieldCheckbox],
+  declarations: [DynamicFieldCheckbox],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FormlyBootstrapFormFieldModule,
-    FormlyModule.forChild({
+    DynamicBootstrapFormFieldModule,
+    DynamicModule.forChild({
       types: [
         {
           name: "checkbox",
-          component: FormlyFieldCheckbox,
+          component: DynamicFieldCheckbox,
           wrappers: ["form-field"],
         },
         {
@@ -27,6 +27,6 @@ import { FormlyFieldCheckbox } from "./checkbox.type";
       ],
     }),
   ],
-  entryComponents: [FormlyFieldCheckbox],
+  entryComponents: [DynamicFieldCheckbox],
 })
-export class FormlyBootstrapCheckboxModule {}
+export class DynamicBootstrapCheckboxModule {}

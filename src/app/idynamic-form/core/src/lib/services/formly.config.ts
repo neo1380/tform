@@ -1,30 +1,32 @@
-import { Injectable, InjectionToken, ComponentRef } from '@angular/core';
-import { FieldType } from './../templates/field.type';
-import { reverseDeepMerge, defineHiddenProp } from './../utils';
+import { Injectable, InjectionToken, ComponentRef } from "@angular/core";
+import { FieldType } from "./../templates/field.type";
+import { reverseDeepMerge, defineHiddenProp } from "./../utils";
 import {
-  FormlyFieldConfig,
-  FormlyFieldConfigCache,
+  DynamicFieldConfig,
+  DynamicFieldConfigCache,
   ConfigOption,
   TypeOption,
   ValidatorOption,
   WrapperOption,
-  FormlyExtension,
+  DynamicExtension,
   ValidationMessageOption,
-} from '../models';
+} from "../models";
 
-export const FORMLY_CONFIG = new InjectionToken<ConfigOption[]>('FORMLY_CONFIG');
+export const FORMLY_CONFIG = new InjectionToken<ConfigOption[]>(
+  "FORMLY_CONFIG"
+);
 
 /**
  * Maintains list of formly field directive types. This can be used to register new field templates.
  */
-@Injectable({ providedIn: 'root' })
-export class FormlyConfig {
+@Injectable({ providedIn: "root" })
+export class DynamicConfig {
   types: { [name: string]: TypeOption } = {};
   validators: { [name: string]: ValidatorOption } = {};
   wrappers: { [name: string]: WrapperOption } = {};
-  messages: { [name: string]: ValidationMessageOption['message'] } = {};
-  extras: ConfigOption['extras'] = {
-    checkExpressionOn: 'changeDetectionCheck',
+  messages: { [name: string]: ValidationMessageOption["message"] } = {};
+  extras: ConfigOption["extras"] = {
+    checkExpressionOn: "changeDetectionCheck",
     lazyRender: false,
     showError(field: FieldType) {
       return (
@@ -36,7 +38,7 @@ export class FormlyConfig {
       );
     },
   };
-  extensions: { [name: string]: FormlyExtension } = {};
+  extensions: { [name: string]: DynamicExtension } = {};
 
   addConfig(config: ConfigOption) {
     if (config.types) {
@@ -49,7 +51,9 @@ export class FormlyConfig {
       config.wrappers.forEach((wrapper) => this.setWrapper(wrapper));
     }
     if (config.validationMessages) {
-      config.validationMessages.forEach((validation) => this.addValidatorMessage(validation.name, validation.message));
+      config.validationMessages.forEach((validation) =>
+        this.addValidatorMessage(validation.name, validation.message)
+      );
     }
     if (config.extensions) {
       config.extensions.forEach((c) => (this.extensions[c.name] = c.extension));
@@ -67,14 +71,16 @@ export class FormlyConfig {
         this.types[options.name] = <TypeOption>{ name: options.name };
       }
 
-      ['component', 'extends', 'defaultOptions'].forEach((prop) => {
+      ["component", "extends", "defaultOptions"].forEach((prop) => {
         if (options.hasOwnProperty(prop)) {
           this.types[options.name][prop] = options[prop];
         }
       });
 
       if (options.wrappers) {
-        options.wrappers.forEach((wrapper) => this.setTypeWrapper(options.name, wrapper));
+        options.wrappers.forEach((wrapper) =>
+          this.setTypeWrapper(options.name, wrapper)
+        );
       }
     }
   }
@@ -82,7 +88,7 @@ export class FormlyConfig {
   getType(name: string): TypeOption {
     if (!this.types[name]) {
       throw new Error(
-        `[Formly Error] The type "${name}" could not be found. Please make sure that is registered through the FormlyModule declaration.`,
+        `[Dynamic Error] The type "${name}" could not be found. Please make sure that is registered through the DynamicModule declaration.`
       );
     }
 
@@ -91,13 +97,14 @@ export class FormlyConfig {
     return this.types[name];
   }
 
-  getMergedField(field: FormlyFieldConfig = {}): any {
+  getMergedField(field: DynamicFieldConfig = {}): any {
     const type = this.getType(field.type);
     if (type.defaultOptions) {
       reverseDeepMerge(field, type.defaultOptions);
     }
 
-    const extendDefaults = type.extends && this.getType(type.extends).defaultOptions;
+    const extendDefaults =
+      type.extends && this.getType(type.extends).defaultOptions;
     if (extendDefaults) {
       reverseDeepMerge(field, extendDefaults);
     }
@@ -112,7 +119,11 @@ export class FormlyConfig {
     }
 
     const componentRef = this.resolveFieldTypeRef(field);
-    if (componentRef && componentRef.instance && componentRef.instance.defaultOptions) {
+    if (
+      componentRef &&
+      componentRef.instance &&
+      componentRef.instance.defaultOptions
+    ) {
       reverseDeepMerge(field, componentRef.instance.defaultOptions);
     }
 
@@ -122,14 +133,16 @@ export class FormlyConfig {
   }
 
   /** @internal */
-  resolveFieldTypeRef(field: FormlyFieldConfigCache = {}): ComponentRef<FieldType> {
+  resolveFieldTypeRef(
+    field: DynamicFieldConfigCache = {}
+  ): ComponentRef<FieldType> {
     if (!field.type) {
       return null;
     }
 
     const type = this.getType(field.type);
-    if (!type.component || type['_componentRef']) {
-      return type['_componentRef'];
+    if (!type.component || type["_componentRef"]) {
+      return type["_componentRef"];
     }
 
     const { _resolver, _injector } = field.options;
@@ -137,11 +150,13 @@ export class FormlyConfig {
       return null;
     }
 
-    const componentRef = _resolver.resolveComponentFactory<FieldType>(type.component).create(_injector);
-    defineHiddenProp(type, '_componentRef', componentRef);
+    const componentRef = _resolver
+      .resolveComponentFactory<FieldType>(type.component)
+      .create(_injector);
+    defineHiddenProp(type, "_componentRef", componentRef);
     componentRef.destroy();
 
-    return type['_componentRef'];
+    return type["_componentRef"];
   }
 
   setWrapper(options: WrapperOption) {
@@ -156,7 +171,7 @@ export class FormlyConfig {
   getWrapper(name: string): WrapperOption {
     if (!this.wrappers[name]) {
       throw new Error(
-        `[Formly Error] The wrapper "${name}" could not be found. Please make sure that is registered through the FormlyModule declaration.`,
+        `[Dynamic Error] The wrapper "${name}" could not be found. Please make sure that is registered through the DynamicModule declaration.`
       );
     }
 
@@ -182,14 +197,17 @@ export class FormlyConfig {
   getValidator(name: string): ValidatorOption {
     if (!this.validators[name]) {
       throw new Error(
-        `[Formly Error] The validator "${name}" could not be found. Please make sure that is registered through the FormlyModule declaration.`,
+        `[Dynamic Error] The validator "${name}" could not be found. Please make sure that is registered through the DynamicModule declaration.`
       );
     }
 
     return this.validators[name];
   }
 
-  addValidatorMessage(name: string, message: ValidationMessageOption['message']) {
+  addValidatorMessage(
+    name: string,
+    message: ValidationMessageOption["message"]
+  ) {
     this.messages[name] = message;
   }
 

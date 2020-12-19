@@ -14,25 +14,33 @@ import {
   Renderer2,
   ElementRef,
   ChangeDetectionStrategy,
-} from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { FormlyConfig } from '../services/formly.config';
-import { FormlyFieldConfig, FormlyFieldConfigCache } from '../models';
-import { defineHiddenProp, observe, observeDeep, getFieldValue, assignFieldValue } from '../utils';
-import { FieldWrapper } from '../templates/field.wrapper';
-import { FieldType } from '../templates/field.type';
-import { isObservable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
+} from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { DynamicConfig } from "../services/formly.config";
+import { DynamicFieldConfig, DynamicFieldConfigCache } from "../models";
+import {
+  defineHiddenProp,
+  observe,
+  observeDeep,
+  getFieldValue,
+  assignFieldValue,
+} from "../utils";
+import { FieldWrapper } from "../templates/field.wrapper";
+import { FieldType } from "../templates/field.type";
+import { isObservable } from "rxjs";
+import { debounceTime, distinctUntilChanged, startWith } from "rxjs/operators";
 
 @Component({
-  selector: 'formly-field',
-  template: '<ng-template #container></ng-template>',
+  selector: "formly-field",
+  template: "<ng-template #container></ng-template>",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormlyField implements OnInit, OnChanges, AfterContentInit, AfterViewInit, OnDestroy {
-  @Input() field: FormlyFieldConfig;
+export class DynamicField
+  implements OnInit, OnChanges, AfterContentInit, AfterViewInit, OnDestroy {
+  @Input() field: DynamicFieldConfig;
 
-  @ViewChild('container', { read: ViewContainerRef, static: true }) containerRef: ViewContainerRef;
+  @ViewChild("container", { read: ViewContainerRef, static: true })
+  containerRef: ViewContainerRef;
 
   private hostObservers: ReturnType<typeof observe>[] = [];
   private componentRefs: any[] = [];
@@ -41,26 +49,26 @@ export class FormlyField implements OnInit, OnChanges, AfterContentInit, AfterVi
   valueChangesUnsubscribe = () => {};
 
   constructor(
-    private config: FormlyConfig,
+    private config: DynamicConfig,
     private renderer: Renderer2,
     private resolver: ComponentFactoryResolver,
-    private elementRef: ElementRef,
+    private elementRef: ElementRef
   ) {}
 
   ngAfterContentInit() {
-    this.triggerHook('afterContentInit');
+    this.triggerHook("afterContentInit");
   }
 
   ngAfterViewInit() {
-    this.triggerHook('afterViewInit');
+    this.triggerHook("afterViewInit");
   }
 
   ngOnInit() {
-    this.triggerHook('onInit');
+    this.triggerHook("onInit");
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.triggerHook('onChanges', changes);
+    this.triggerHook("onChanges", changes);
   }
 
   ngOnDestroy() {
@@ -68,10 +76,14 @@ export class FormlyField implements OnInit, OnChanges, AfterContentInit, AfterVi
     this.hostObservers.forEach((hostObserver) => hostObserver.unsubscribe());
     this.hooksObservers.forEach((unsubscribe) => unsubscribe());
     this.valueChangesUnsubscribe();
-    this.triggerHook('onDestroy');
+    this.triggerHook("onDestroy");
   }
 
-  private renderField(containerRef: ViewContainerRef, f: FormlyFieldConfigCache, wrappers: string[] = []) {
+  private renderField(
+    containerRef: ViewContainerRef,
+    f: DynamicFieldConfigCache,
+    wrappers: string[] = []
+  ) {
     if (this.containerRef === containerRef) {
       this.resetRefs(this.field);
       this.containerRef.clear();
@@ -82,49 +94,66 @@ export class FormlyField implements OnInit, OnChanges, AfterContentInit, AfterVi
       const [wrapper, ...wps] = wrappers;
       const { component } = this.config.getWrapper(wrapper);
 
-      const ref = containerRef.createComponent<FieldWrapper>(this.resolver.resolveComponentFactory(component));
+      const ref = containerRef.createComponent<FieldWrapper>(
+        this.resolver.resolveComponentFactory(component)
+      );
       this.attachComponentRef(ref, f);
-      observe<ViewContainerRef>(ref.instance, ['fieldComponent'], ({ currentValue, previousValue, firstChange }) => {
-        if (currentValue) {
-          const viewRef = previousValue ? previousValue.detach() : null;
-          if (viewRef && !viewRef.destroyed) {
-            currentValue.insert(viewRef);
-          } else {
-            this.renderField(currentValue, f, wps);
-          }
+      observe<ViewContainerRef>(
+        ref.instance,
+        ["fieldComponent"],
+        ({ currentValue, previousValue, firstChange }) => {
+          if (currentValue) {
+            const viewRef = previousValue ? previousValue.detach() : null;
+            if (viewRef && !viewRef.destroyed) {
+              currentValue.insert(viewRef);
+            } else {
+              this.renderField(currentValue, f, wps);
+            }
 
-          !firstChange && ref.changeDetectorRef.detectChanges();
+            !firstChange && ref.changeDetectorRef.detectChanges();
+          }
         }
-      });
+      );
     } else if (f && f.type) {
       const { component } = this.config.getType(f.type);
-      const ref = containerRef.createComponent<FieldWrapper>(this.resolver.resolveComponentFactory(component));
+      const ref = containerRef.createComponent<FieldWrapper>(
+        this.resolver.resolveComponentFactory(component)
+      );
       this.attachComponentRef(ref, f);
     }
   }
 
   private triggerHook(name: string, changes?: SimpleChanges) {
-    if (name === 'onInit' || (name === 'onChanges' && changes.field && !changes.field.firstChange)) {
+    if (
+      name === "onInit" ||
+      (name === "onChanges" && changes.field && !changes.field.firstChange)
+    ) {
       this.valueChangesUnsubscribe = this.fieldChanges(this.field);
     }
 
     if (this.field && this.field.hooks && this.field.hooks[name]) {
       if (!changes || changes.field) {
         const r = this.field.hooks[name](this.field);
-        if (isObservable(r) && ['onInit', 'afterContentInit', 'afterViewInit'].indexOf(name) !== -1) {
+        if (
+          isObservable(r) &&
+          ["onInit", "afterContentInit", "afterViewInit"].indexOf(name) !== -1
+        ) {
           const sub = r.subscribe();
           this.hooksObservers.push(() => sub.unsubscribe());
         }
       }
     }
 
-    if (name === 'onChanges' && changes.field) {
+    if (name === "onChanges" && changes.field) {
       this.resetRefs(changes.field.previousValue);
       this.render();
     }
   }
 
-  private attachComponentRef<T extends FieldType>(ref: ComponentRef<T>, field: FormlyFieldConfigCache) {
+  private attachComponentRef<T extends FieldType>(
+    ref: ComponentRef<T>,
+    field: DynamicFieldConfigCache
+  ) {
     this.componentRefs.push(ref);
     field._componentRefs.push(ref);
     Object.assign(ref.instance, { field });
@@ -137,43 +166,61 @@ export class FormlyField implements OnInit, OnChanges, AfterContentInit, AfterVi
 
     this.hostObservers.forEach((hostObserver) => hostObserver.unsubscribe());
     this.hostObservers = [
-      observe<boolean>(this.field, ['hide'], ({ firstChange, currentValue }) => {
-        if (!this.config.extras.lazyRender) {
-          firstChange && this.renderField(this.containerRef, this.field);
-          if (!firstChange || (firstChange && currentValue)) {
-            this.renderer.setStyle(this.elementRef.nativeElement, 'display', currentValue ? 'none' : '');
-          }
-        } else {
-          if (currentValue) {
-            this.containerRef.clear();
+      observe<boolean>(
+        this.field,
+        ["hide"],
+        ({ firstChange, currentValue }) => {
+          if (!this.config.extras.lazyRender) {
+            firstChange && this.renderField(this.containerRef, this.field);
+            if (!firstChange || (firstChange && currentValue)) {
+              this.renderer.setStyle(
+                this.elementRef.nativeElement,
+                "display",
+                currentValue ? "none" : ""
+              );
+            }
           } else {
-            this.renderField(this.containerRef, this.field);
+            if (currentValue) {
+              this.containerRef.clear();
+            } else {
+              this.renderField(this.containerRef, this.field);
+            }
+          }
+
+          this.field.options.detectChanges(this.field);
+        }
+      ),
+      observe<string>(
+        this.field,
+        ["className"],
+        ({ firstChange, currentValue }) => {
+          if (!firstChange || (firstChange && currentValue)) {
+            this.renderer.setAttribute(
+              this.elementRef.nativeElement,
+              "class",
+              currentValue
+            );
           }
         }
-
-        this.field.options.detectChanges(this.field);
-      }),
-      observe<string>(this.field, ['className'], ({ firstChange, currentValue }) => {
-        if (!firstChange || (firstChange && currentValue)) {
-          this.renderer.setAttribute(this.elementRef.nativeElement, 'class', currentValue);
-        }
-      }),
+      ),
     ];
   }
 
-  private resetRefs(field: FormlyFieldConfigCache) {
+  private resetRefs(field: DynamicFieldConfigCache) {
     if (field) {
       if (field._componentRefs) {
-        field._componentRefs = field._componentRefs.filter((ref) => this.componentRefs.indexOf(ref) === -1);
+        field._componentRefs = field._componentRefs.filter(
+          (ref) => this.componentRefs.indexOf(ref) === -1
+        );
       } else {
-        defineHiddenProp(this.field, '_componentRefs', []);
+        defineHiddenProp(this.field, "_componentRefs", []);
       }
     }
 
     this.componentRefs = [];
   }
 
-  private fieldChanges(field: FormlyFieldConfigCache) {
+  private fieldChanges(field: DynamicFieldConfigCache) {
     this.valueChangesUnsubscribe();
     if (!field) {
       return () => {};
@@ -183,22 +230,26 @@ export class FormlyField implements OnInit, OnChanges, AfterContentInit, AfterVi
       observeDeep({
         source: field,
         target: field.templateOptions,
-        paths: ['templateOptions'],
+        paths: ["templateOptions"],
         setFn: () => field.options.detectChanges(field),
       }),
       observeDeep({
         source: field,
         target: field.options.formState,
-        paths: ['options', 'formState'],
+        paths: ["options", "formState"],
         setFn: () => field.options.detectChanges(field),
       }),
     ];
 
-    for (const path of [['template'], ['fieldGroupClassName'], ['validation', 'show']]) {
+    for (const path of [
+      ["template"],
+      ["fieldGroupClassName"],
+      ["validation", "show"],
+    ]) {
       const fieldObserver = observe(
         field,
         path,
-        ({ firstChange }) => !firstChange && field.options.detectChanges(field),
+        ({ firstChange }) => !firstChange && field.options.detectChanges(field)
       );
       subscribes.push(() => fieldObserver.unsubscribe());
     }
@@ -212,13 +263,23 @@ export class FormlyField implements OnInit, OnChanges, AfterContentInit, AfterVi
       }
 
       const { updateOn, debounce } = field.modelOptions;
-      if ((!updateOn || updateOn === 'change') && debounce && debounce.default > 0) {
-        valueChanges = control.valueChanges.pipe(debounceTime(debounce.default));
+      if (
+        (!updateOn || updateOn === "change") &&
+        debounce &&
+        debounce.default > 0
+      ) {
+        valueChanges = control.valueChanges.pipe(
+          debounceTime(debounce.default)
+        );
       }
 
       const sub = valueChanges.subscribe((value) => {
         // workaround for https://github.com/angular/angular/issues/13792
-        if (control instanceof FormControl && control['_fields'] && control['_fields'].length > 1) {
+        if (
+          control instanceof FormControl &&
+          control["_fields"] &&
+          control["_fields"].length > 1
+        ) {
           control.patchValue(value, { emitEvent: false, onlySelf: true });
         }
 
@@ -227,7 +288,7 @@ export class FormlyField implements OnInit, OnChanges, AfterContentInit, AfterVi
         }
 
         assignFieldValue(field, value);
-        field.options.fieldChanges.next({ value, field, type: 'valueChanges' });
+        field.options.fieldChanges.next({ value, field, type: "valueChanges" });
       });
 
       subscribes.push(() => sub.unsubscribe());

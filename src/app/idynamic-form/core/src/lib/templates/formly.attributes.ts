@@ -8,86 +8,118 @@ import {
   DoCheck,
   Inject,
   OnDestroy,
-} from '@angular/core';
-import { FormlyFieldConfig, FormlyTemplateOptions } from '../models';
-import { defineHiddenProp, FORMLY_VALIDATORS, observe, IObserver } from '../utils';
-import { DOCUMENT } from '@angular/common';
+} from "@angular/core";
+import { DynamicFieldConfig, DynamicTemplateOptions } from "../models";
+import {
+  defineHiddenProp,
+  FORMLY_VALIDATORS,
+  observe,
+  IObserver,
+} from "../utils";
+import { DOCUMENT } from "@angular/common";
 
 @Directive({
-  selector: '[formlyAttributes]',
+  selector: "[formlyAttributes]",
   host: {
-    '(focus)': 'onFocus($event)',
-    '(blur)': 'onBlur($event)',
-    '(change)': 'onChange($event)',
+    "(focus)": "onFocus($event)",
+    "(blur)": "onBlur($event)",
+    "(change)": "onChange($event)",
   },
 })
-export class FormlyAttributes implements OnChanges, DoCheck, OnDestroy {
-  @Input('formlyAttributes') field: FormlyFieldConfig;
+export class DynamicAttributes implements OnChanges, DoCheck, OnDestroy {
+  @Input("formlyAttributes") field: DynamicFieldConfig;
   @Input() id: string;
 
   private document: Document;
   private uiAttributesCache: any = {};
-  private uiAttributes = [...FORMLY_VALIDATORS, 'tabindex', 'placeholder', 'readonly', 'disabled', 'step'];
+  private uiAttributes = [
+    ...FORMLY_VALIDATORS,
+    "tabindex",
+    "placeholder",
+    "readonly",
+    "disabled",
+    "step",
+  ];
   private focusObserver: IObserver<boolean>;
 
   /**
    * HostBinding doesn't register listeners conditionally which may produce some perf issues.
    *
-   * Formly issue: https://github.com/ngx-formly/ngx-formly/issues/1991
+   * Dynamic issue: https://github.com/ngx-formly/ngx-formly/issues/1991
    */
   private uiEvents = {
     listeners: [],
-    events: ['click', 'keyup', 'keydown', 'keypress'],
+    events: ["click", "keyup", "keydown", "keypress"],
   };
 
-  get to(): FormlyTemplateOptions {
+  get to(): DynamicTemplateOptions {
     return this.field.templateOptions || {};
   }
 
   private get fieldAttrElements(): ElementRef[] {
-    return (this.field && this.field['_elementRefs']) || [];
+    return (this.field && this.field["_elementRefs"]) || [];
   }
 
-  constructor(private renderer: Renderer2, private elementRef: ElementRef, @Inject(DOCUMENT) _document: any) {
+  constructor(
+    private renderer: Renderer2,
+    private elementRef: ElementRef,
+    @Inject(DOCUMENT) _document: any
+  ) {
     this.document = _document;
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.field) {
-      this.field.name && this.setAttribute('name', this.field.name);
+      this.field.name && this.setAttribute("name", this.field.name);
       this.uiEvents.listeners.forEach((listener) => listener());
       this.uiEvents.events.forEach((eventName) => {
         if (this.to && this.to[eventName]) {
           this.uiEvents.listeners.push(
-            this.renderer.listen(this.elementRef.nativeElement, eventName, (e) => this.to[eventName](this.field, e)),
+            this.renderer.listen(
+              this.elementRef.nativeElement,
+              eventName,
+              (e) => this.to[eventName](this.field, e)
+            )
           );
         }
       });
 
       if (this.to && this.to.attributes) {
-        observe(this.field, ['templateOptions', 'attributes'], ({ currentValue, previousValue }) => {
-          if (previousValue) {
-            Object.keys(previousValue).forEach((attr) => this.removeAttribute(attr));
-          }
+        observe(
+          this.field,
+          ["templateOptions", "attributes"],
+          ({ currentValue, previousValue }) => {
+            if (previousValue) {
+              Object.keys(previousValue).forEach((attr) =>
+                this.removeAttribute(attr)
+              );
+            }
 
-          if (currentValue) {
-            Object.keys(currentValue).forEach((attr) => this.setAttribute(attr, currentValue[attr]));
+            if (currentValue) {
+              Object.keys(currentValue).forEach((attr) =>
+                this.setAttribute(attr, currentValue[attr])
+              );
+            }
           }
-        });
+        );
       }
 
       this.detachElementRef(changes.field.previousValue);
       this.attachElementRef(changes.field.currentValue);
       if (this.fieldAttrElements.length === 1) {
-        !this.id && this.field.id && this.setAttribute('id', this.field.id);
-        this.focusObserver = observe<boolean>(this.field, ['focus'], ({ currentValue }) => {
-          this.toggleFocus(currentValue);
-        });
+        !this.id && this.field.id && this.setAttribute("id", this.field.id);
+        this.focusObserver = observe<boolean>(
+          this.field,
+          ["focus"],
+          ({ currentValue }) => {
+            this.toggleFocus(currentValue);
+          }
+        );
       }
     }
 
     if (changes.id) {
-      this.setAttribute('id', this.id);
+      this.setAttribute("id", this.id);
     }
   }
 
@@ -96,7 +128,7 @@ export class FormlyAttributes implements OnChanges, DoCheck, OnDestroy {
    * by using a HostBinding we run into certain edge cases. This means that whatever logic
    * is in here has to be super lean or we risk seriously damaging or destroying the performance.
    *
-   * Formly issue: https://github.com/ngx-formly/ngx-formly/issues/1317
+   * Dynamic issue: https://github.com/ngx-formly/ngx-formly/issues/1317
    * Material issue: https://github.com/angular/components/issues/14024
    */
   ngDoCheck() {
@@ -129,7 +161,8 @@ export class FormlyAttributes implements OnChanges, DoCheck, OnDestroy {
       !!this.document.activeElement &&
       this.fieldAttrElements.some(
         ({ nativeElement }) =>
-          this.document.activeElement === nativeElement || nativeElement.contains(this.document.activeElement),
+          this.document.activeElement === nativeElement ||
+          nativeElement.contains(this.document.activeElement)
       );
 
     if (value && !isFocused) {
@@ -163,22 +196,28 @@ export class FormlyAttributes implements OnChanges, DoCheck, OnDestroy {
     }
   }
 
-  private attachElementRef(f: FormlyFieldConfig) {
+  private attachElementRef(f: DynamicFieldConfig) {
     if (!f) {
       return;
     }
 
-    if (f['_elementRefs'] && f['_elementRefs'].indexOf(this.elementRef) === -1) {
-      f['_elementRefs'].push(this.elementRef);
+    if (
+      f["_elementRefs"] &&
+      f["_elementRefs"].indexOf(this.elementRef) === -1
+    ) {
+      f["_elementRefs"].push(this.elementRef);
     } else {
-      defineHiddenProp(f, '_elementRefs', [this.elementRef]);
+      defineHiddenProp(f, "_elementRefs", [this.elementRef]);
     }
   }
 
-  private detachElementRef(f: FormlyFieldConfig) {
-    const index = f && f['_elementRefs'] ? this.fieldAttrElements.indexOf(this.elementRef) : -1;
+  private detachElementRef(f: DynamicFieldConfig) {
+    const index =
+      f && f["_elementRefs"]
+        ? this.fieldAttrElements.indexOf(this.elementRef)
+        : -1;
     if (index !== -1) {
-      this.field['_elementRefs'].splice(index, 1);
+      this.field["_elementRefs"].splice(index, 1);
     }
   }
 

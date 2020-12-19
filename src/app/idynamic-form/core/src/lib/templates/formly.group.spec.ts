@@ -1,4 +1,4 @@
-import { createFormlyFieldComponent as renderComponent } from "@ngx-formly/core/testing";
+import { createDynamicFieldComponent as renderComponent } from "@ngx-formly/core/testing";
 
 describe("Group Field Type", () => {
   it("should render fieldGroup", () => {

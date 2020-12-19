@@ -1,10 +1,10 @@
-import { FormlyFieldConfig } from "../../../../../idynamic-form/core/src/lib/core";
-import { createFormlyFieldComponent } from "@ngx-formly/core/testing";
-import { FormlyBootstrapCheckboxModule } from "@ngx-formly/bootstrap/checkbox";
+import { DynamicFieldConfig } from "../../../../../idynamic-form/core/src/lib/core";
+import { createDynamicFieldComponent } from "@ngx-formly/core/testing";
+import { DynamicBootstrapCheckboxModule } from "@ngx-formly/bootstrap/checkbox";
 
-const renderComponent = (field: FormlyFieldConfig) => {
-  return createFormlyFieldComponent(field, {
-    imports: [FormlyBootstrapCheckboxModule],
+const renderComponent = (field: DynamicFieldConfig) => {
+  return createDynamicFieldComponent(field, {
+    imports: [DynamicBootstrapCheckboxModule],
   });
 };
 

@@ -1,10 +1,10 @@
-import { FormlyFieldConfig } from "../../../../../idynamic-form/core/src/lib/core";
-import { createFormlyFieldComponent } from "@ngx-formly/core/testing";
-import { FormlyBootstrapRadioModule } from "@ngx-formly/bootstrap/radio";
+import { DynamicFieldConfig } from "../../../../../idynamic-form/core/src/lib/core";
+import { createDynamicFieldComponent } from "@ngx-formly/core/testing";
+import { DynamicBootstrapRadioModule } from "@ngx-formly/bootstrap/radio";
 
-const renderComponent = (field: FormlyFieldConfig) => {
-  return createFormlyFieldComponent(field, {
-    imports: [FormlyBootstrapRadioModule],
+const renderComponent = (field: DynamicFieldConfig) => {
+  return createDynamicFieldComponent(field, {
+    imports: [DynamicBootstrapRadioModule],
   });
 };
 

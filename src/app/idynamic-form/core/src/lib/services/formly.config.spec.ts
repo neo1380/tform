@@ -1,151 +1,174 @@
-import { FormlyConfig } from './formly.config';
-import { Validators, FormControl } from '@angular/forms';
-import { Component } from '@angular/core';
+import { DynamicConfig } from "./formly.config";
+import { Validators, FormControl } from "@angular/forms";
+import { Component } from "@angular/core";
 
-describe('FormlyConfig service', () => {
-  let config: FormlyConfig;
+describe("DynamicConfig service", () => {
+  let config: DynamicConfig;
   beforeEach(() => {
-    config = new FormlyConfig();
+    config = new DynamicConfig();
     config.addConfig({
-      wrappers: [{ name: 'layout', component: TestComponent }],
-      types: [{ name: 'input' }],
-      validators: [{ name: 'required', validation: Validators.required }],
-      validationMessages: [{ name: 'required', message: 'This field is required.' }],
+      wrappers: [{ name: "layout", component: TestComponent }],
+      types: [{ name: "input" }],
+      validators: [{ name: "required", validation: Validators.required }],
+      validationMessages: [
+        { name: "required", message: "This field is required." },
+      ],
     });
   });
 
-  describe('extra option: showError', () => {
-    it('should return false when fied is untouched', () => {
+  describe("extra option: showError", () => {
+    it("should return false when fied is untouched", () => {
       const field = {},
         formControl = new FormControl(null, Validators.required),
         options = { parentForm: { submitted: false } };
 
-      expect(config.extras.showError({ options, formControl, field } as any)).toBe(false);
+      expect(
+        config.extras.showError({ options, formControl, field } as any)
+      ).toBe(false);
     });
 
-    it('should showError when form is submitted and form is invalid', () => {
+    it("should showError when form is submitted and form is invalid", () => {
       const field = {},
         formControl = new FormControl(null, Validators.required),
         options = { parentForm: { submitted: true } };
 
-      expect(config.extras.showError({ options, formControl, field } as any)).toBeTrue();
+      expect(
+        config.extras.showError({ options, formControl, field } as any)
+      ).toBeTrue();
     });
 
-    it('should showError when field is touched and form is invalid', () => {
+    it("should showError when field is touched and form is invalid", () => {
       const field = {},
         formControl = new FormControl(null, Validators.required),
         options = { parentForm: { submitted: false } };
 
       formControl.markAsTouched();
 
-      expect(config.extras.showError({ options, formControl, field } as any)).toBeTrue();
+      expect(
+        config.extras.showError({ options, formControl, field } as any)
+      ).toBeTrue();
     });
 
-    it('should show error when option `show` is true', () => {
+    it("should show error when option `show` is true", () => {
       const field = { validation: { show: true } },
         formControl = new FormControl(null, Validators.required),
         options = { parentForm: { submitted: false } };
 
-      expect(config.extras.showError({ options, formControl, field } as any)).toBeTrue();
+      expect(
+        config.extras.showError({ options, formControl, field } as any)
+      ).toBeTrue();
     });
   });
 
-  describe('wrappers', () => {
-    it('should add wrapper', () => {
-      config.setWrapper({ name: 'custom_wrapper', component: TestComponent });
+  describe("wrappers", () => {
+    it("should add wrapper", () => {
+      config.setWrapper({ name: "custom_wrapper", component: TestComponent });
 
-      expect(config.getWrapper('layout').name).toEqual('layout');
-      expect(config.getWrapper('custom_wrapper').name).toEqual('custom_wrapper');
+      expect(config.getWrapper("layout").name).toEqual("layout");
+      expect(config.getWrapper("custom_wrapper").name).toEqual(
+        "custom_wrapper"
+      );
     });
 
-    it('should throw when wrapper not found', () => {
-      const config = new FormlyConfig();
-      expect(() => config.getWrapper('custom_wrapper')).toThrowError(
-        '[Formly Error] The wrapper "custom_wrapper" could not be found. Please make sure that is registered through the FormlyModule declaration.',
+    it("should throw when wrapper not found", () => {
+      const config = new DynamicConfig();
+      expect(() => config.getWrapper("custom_wrapper")).toThrowError(
+        '[Dynamic Error] The wrapper "custom_wrapper" could not be found. Please make sure that is registered through the DynamicModule declaration.'
       );
     });
   });
 
-  describe('types', () => {
-    it('should add type', () => {
-      config.setType({ name: 'custom_input' });
+  describe("types", () => {
+    it("should add type", () => {
+      config.setType({ name: "custom_input" });
 
-      expect(config.getType('input').name).toEqual('input');
-      expect(config.getType('custom_input').name).toEqual('custom_input');
+      expect(config.getType("input").name).toEqual("input");
+      expect(config.getType("custom_input").name).toEqual("custom_input");
     });
 
-    it('should add type as an array', () => {
-      config.setType([{ name: 'custom_input1' }, { name: 'custom_input2' }]);
+    it("should add type as an array", () => {
+      config.setType([{ name: "custom_input1" }, { name: "custom_input2" }]);
 
-      expect(config.getType('custom_input1').name).toEqual('custom_input1');
-      expect(config.getType('custom_input2').name).toEqual('custom_input2');
+      expect(config.getType("custom_input1").name).toEqual("custom_input1");
+      expect(config.getType("custom_input2").name).toEqual("custom_input2");
     });
 
-    it('should throw when type not found', () => {
-      const config = new FormlyConfig();
-      expect(() => config.getType('custom_input')).toThrowError(
-        '[Formly Error] The type "custom_input" could not be found. Please make sure that is registered through the FormlyModule declaration.',
+    it("should throw when type not found", () => {
+      const config = new DynamicConfig();
+      expect(() => config.getType("custom_input")).toThrowError(
+        '[Dynamic Error] The type "custom_input" could not be found. Please make sure that is registered through the DynamicModule declaration.'
       );
     });
 
-    it('should merge existing options when replacing a field type', () => {
-      const config = new FormlyConfig();
+    it("should merge existing options when replacing a field type", () => {
+      const config = new DynamicConfig();
       config.setType([
-        { name: 'input1', component: TestComponent },
-        { name: 'input1', wrappers: ['label'] },
+        { name: "input1", component: TestComponent },
+        { name: "input1", wrappers: ["label"] },
       ]);
 
-      expect(config.getType('input1')).toEqual({
-        name: 'input1',
+      expect(config.getType("input1")).toEqual({
+        name: "input1",
         component: TestComponent,
-        wrappers: ['label'],
+        wrappers: ["label"],
       });
     });
 
-    it('should extends component + wrappers when not defined', () => {
-      const config = new FormlyConfig();
+    it("should extends component + wrappers when not defined", () => {
+      const config = new DynamicConfig();
       config.setType([
-        { name: 'custom_input1', component: TestComponent, wrappers: ['label'] },
-        { name: 'custom_input2', extends: 'custom_input1' },
+        {
+          name: "custom_input1",
+          component: TestComponent,
+          wrappers: ["label"],
+        },
+        { name: "custom_input2", extends: "custom_input1" },
       ]);
 
-      expect(config.getType('custom_input2')).toEqual({
-        name: 'custom_input2',
+      expect(config.getType("custom_input2")).toEqual({
+        name: "custom_input2",
         component: TestComponent,
-        wrappers: ['label'],
-        extends: 'custom_input1',
+        wrappers: ["label"],
+        extends: "custom_input1",
       });
     });
   });
 
-  describe('validators', () => {
-    it('should add validator', () => {
-      config.setValidator({ name: 'null', validation: Validators.nullValidator });
+  describe("validators", () => {
+    it("should add validator", () => {
+      config.setValidator({
+        name: "null",
+        validation: Validators.nullValidator,
+      });
 
-      expect(config.getValidator('null').name).toEqual('null');
-      expect(config.getValidator('required').name).toEqual('required');
+      expect(config.getValidator("null").name).toEqual("null");
+      expect(config.getValidator("required").name).toEqual("required");
     });
 
-    it('should throw when validator not found', () => {
-      const config = new FormlyConfig();
-      expect(() => config.getValidator('custom_validator')).toThrowError(
-        '[Formly Error] The validator "custom_validator" could not be found. Please make sure that is registered through the FormlyModule declaration.',
+    it("should throw when validator not found", () => {
+      const config = new DynamicConfig();
+      expect(() => config.getValidator("custom_validator")).toThrowError(
+        '[Dynamic Error] The validator "custom_validator" could not be found. Please make sure that is registered through the DynamicModule declaration.'
       );
     });
   });
 
-  describe('message validation', () => {
-    it('get validator error message', () => {
-      expect(config.getValidatorMessage('required')).toEqual('This field is required.');
-      expect(config.getValidatorMessage('maxlength')).toEqual(undefined);
+  describe("message validation", () => {
+    it("get validator error message", () => {
+      expect(config.getValidatorMessage("required")).toEqual(
+        "This field is required."
+      );
+      expect(config.getValidatorMessage("maxlength")).toEqual(undefined);
     });
 
-    it('add validator error message', () => {
-      config.addValidatorMessage('maxlength', 'Maximum Length Exceeded.');
-      expect(config.getValidatorMessage('maxlength')).toEqual('Maximum Length Exceeded.');
+    it("add validator error message", () => {
+      config.addValidatorMessage("maxlength", "Maximum Length Exceeded.");
+      expect(config.getValidatorMessage("maxlength")).toEqual(
+        "Maximum Length Exceeded."
+      );
     });
   });
 });
 
-@Component({ selector: 'formly-test-cmp', template: '' })
+@Component({ selector: "formly-test-cmp", template: "" })
 class TestComponent {}

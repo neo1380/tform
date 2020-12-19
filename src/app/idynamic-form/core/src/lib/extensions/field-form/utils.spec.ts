@@ -1,6 +1,6 @@
 /* import { unregisterControl, registerControl } from "./utils";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
-import { FormlyFieldConfig } from "../../core";
+import { DynamicFieldConfig } from "../../core";
 
 describe("registerControl", () => {
   it("FormArray", () => {
@@ -64,7 +64,7 @@ describe("registerControl", () => {
   });
 
   it('should keep disabled state in sync with "templateOptions.disabled"', () => {
-    const field: FormlyFieldConfig = {
+    const field: DynamicFieldConfig = {
       key: "test",
       templateOptions: { disabled: false },
       parent: {},

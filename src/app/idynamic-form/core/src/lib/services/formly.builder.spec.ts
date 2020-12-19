@@ -1,26 +1,26 @@
-import { FormlyFormBuilder, FormlyConfig } from '../core';
-import { ConfigOption, FormlyFieldConfigCache } from '../models';
-import { FormGroup } from '@angular/forms';
+import { DynamicFormBuilder, DynamicConfig } from "../core";
+import { ConfigOption, DynamicFieldConfigCache } from "../models";
+import { FormGroup } from "@angular/forms";
 
 function createBuilder(option?: ConfigOption) {
-  const config = new FormlyConfig();
-  config.addConfig(option || { extensions: [{ name: 'core', extension: {} }] });
+  const config = new DynamicConfig();
+  config.addConfig(option || { extensions: [{ name: "core", extension: {} }] });
 
-  return new FormlyFormBuilder(config, null, null, null);
+  return new DynamicFormBuilder(config, null, null, null);
 }
 
-describe('FormlyFormBuilder service', () => {
-  it('should throw error when core extension is not registred', () => {
+describe("DynamicFormBuilder service", () => {
+  it("should throw error when core extension is not registred", () => {
     const builder = createBuilder({});
 
     const build = () => builder.build({});
     expect(build).toThrowError(/missing `forRoot\(\)` call/i);
   });
 
-  it('should assign builder props to field options', () => {
+  it("should assign builder props to field options", () => {
     const builder = createBuilder();
 
-    const field: FormlyFieldConfigCache = {};
+    const field: DynamicFieldConfigCache = {};
     builder.build(field);
 
     expect(field.form).toEqual(expect.any(FormGroup));
@@ -30,43 +30,47 @@ describe('FormlyFormBuilder service', () => {
         _injector: null,
         _buildForm: expect.any(Function),
         build: expect.any(Function),
-      }),
+      })
     );
 
     global.console = { ...global.console, warn: jest.fn() };
-    spyOn(builder, 'build');
+    spyOn(builder, "build");
     field.options.build(field);
     field.options._buildForm();
     expect(console.warn).toBeCalled();
     expect(builder.build).toHaveBeenCalledTimes(2);
   });
 
-  it('should call extension during build call', () => {
+  it("should call extension during build call", () => {
     const spy = jest.fn();
     const extension = {
-      prePopulate: () => spy('prePopulate'),
-      onPopulate: () => spy('onPopulate'),
-      postPopulate: () => spy('postPopulate'),
+      prePopulate: () => spy("prePopulate"),
+      onPopulate: () => spy("onPopulate"),
+      postPopulate: () => spy("postPopulate"),
     };
 
     const builder = createBuilder({
-      extensions: [{ name: 'core', extension }],
+      extensions: [{ name: "core", extension }],
     });
 
     builder.build({});
 
-    expect(spy.mock.calls).toEqual([['prePopulate'], ['onPopulate'], ['postPopulate']]);
+    expect(spy.mock.calls).toEqual([
+      ["prePopulate"],
+      ["onPopulate"],
+      ["postPopulate"],
+    ]);
   });
 
-  it('should build nested field', () => {
+  it("should build nested field", () => {
     const extension = { onPopulate: () => {} };
-    spyOn(extension, 'onPopulate');
+    spyOn(extension, "onPopulate");
 
     const builder = createBuilder({
-      extensions: [{ name: 'core', extension }],
+      extensions: [{ name: "core", extension }],
     });
 
-    builder.build({ fieldGroup: [{ key: 'child' }] });
+    builder.build({ fieldGroup: [{ key: "child" }] });
     expect(extension.onPopulate).toHaveBeenCalledTimes(2);
   });
 });

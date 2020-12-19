@@ -1,24 +1,24 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormlyModule } from "../../../../../idynamic-form/core/src/lib/core";
+import { DynamicModule } from "../../../../../idynamic-form/core/src/lib/core";
 import { ReactiveFormsModule } from "@angular/forms";
-import { FormlyWrapperFormField } from "./form-field.wrapper";
+import { DynamicWrapperFormField } from "./form-field.wrapper";
 
 @NgModule({
-  declarations: [FormlyWrapperFormField],
+  declarations: [DynamicWrapperFormField],
   imports: [
     CommonModule,
     ReactiveFormsModule,
 
-    FormlyModule.forChild({
+    DynamicModule.forChild({
       wrappers: [
         {
           name: "form-field",
-          component: FormlyWrapperFormField,
+          component: DynamicWrapperFormField,
         },
       ],
     }),
   ],
-  entryComponents: [FormlyWrapperFormField],
+  entryComponents: [DynamicWrapperFormField],
 })
-export class FormlyBootstrapFormFieldModule {}
+export class DynamicBootstrapFormFieldModule {}

@@ -1,2 +1,2 @@
-export { FormlyBootstrapSelectModule } from './select.module';
-export { FormlyFieldSelect } from './select.type';
+export { DynamicBootstrapSelectModule } from "./select.module";
+export { DynamicFieldSelect } from "./select.type";

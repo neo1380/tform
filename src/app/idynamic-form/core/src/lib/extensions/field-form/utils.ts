@@ -1,5 +1,10 @@
-import { EventEmitter } from '@angular/core';
-import { FormArray, FormGroup, FormControl, AbstractControl } from '@angular/forms';
+import { EventEmitter } from "@angular/core";
+import {
+  FormArray,
+  FormGroup,
+  FormControl,
+  AbstractControl,
+} from "@angular/forms";
 import {
   getKeyPath,
   getFieldValue,
@@ -8,10 +13,13 @@ import {
   observe,
   assignFieldValue,
   isUndefined,
-} from '../../utils';
-import { FormlyFieldConfig, FormlyFieldConfigCache } from '../../models';
+} from "../../utils";
+import { DynamicFieldConfig, DynamicFieldConfigCache } from "../../models";
 
-export function unregisterControl(field: FormlyFieldConfig, emitEvent = false) {
+export function unregisterControl(
+  field: DynamicFieldConfig,
+  emitEvent = false
+) {
   const form = field.formControl.parent as FormArray | FormGroup;
   if (!form) {
     return;
@@ -35,12 +43,12 @@ export function unregisterControl(field: FormlyFieldConfig, emitEvent = false) {
   control.setParent(null);
 }
 
-export function findControl(field: FormlyFieldConfig): AbstractControl {
+export function findControl(field: DynamicFieldConfig): AbstractControl {
   if (field.formControl) {
     return field.formControl;
   }
 
-  if (field['shareFormControl'] === false) {
+  if (field["shareFormControl"] === false) {
     return null;
   }
 
@@ -49,24 +57,34 @@ export function findControl(field: FormlyFieldConfig): AbstractControl {
   return form ? form.get(getKeyPath(field)) : null;
 }
 
-export function registerControl(field: FormlyFieldConfigCache, control?: any, emitEvent = false) {
+export function registerControl(
+  field: DynamicFieldConfigCache,
+  control?: any,
+  emitEvent = false
+) {
   control = control || field.formControl;
 
-  if (!control['_fields']) {
-    defineHiddenProp(control, '_fields', []);
+  if (!control["_fields"]) {
+    defineHiddenProp(control, "_fields", []);
   }
-  if (control['_fields'].indexOf(field) === -1) {
-    control['_fields'].push(field);
+  if (control["_fields"].indexOf(field) === -1) {
+    control["_fields"].push(field);
   }
 
   if (!field.formControl && control) {
-    defineHiddenProp(field, 'formControl', control);
+    defineHiddenProp(field, "formControl", control);
     field.templateOptions.disabled = !!field.templateOptions.disabled;
-    const disabledObserver = observe(field, ['templateOptions', 'disabled'], ({ firstChange, currentValue }) => {
-      if (!firstChange) {
-        currentValue ? field.formControl.disable() : field.formControl.enable();
+    const disabledObserver = observe(
+      field,
+      ["templateOptions", "disabled"],
+      ({ firstChange, currentValue }) => {
+        if (!firstChange) {
+          currentValue
+            ? field.formControl.disable()
+            : field.formControl.enable();
+        }
       }
-    });
+    );
     if (control.registerOnDisabledChange) {
       control.registerOnDisabledChange(disabledObserver.setValue);
     }
@@ -79,14 +97,20 @@ export function registerControl(field: FormlyFieldConfigCache, control?: any, em
   let form = field.form;
   const paths = getKeyPath(field);
   const value = getFieldValue(field);
-  if (!(isNil(control.value) && isNil(value)) && control.value !== value && control instanceof FormControl) {
+  if (
+    !(isNil(control.value) && isNil(value)) &&
+    control.value !== value &&
+    control instanceof FormControl
+  ) {
     control.patchValue(value, { emitEvent: false });
   }
 
   for (let i = 0; i < paths.length - 1; i++) {
     const path = paths[i];
     if (!form.get([path])) {
-      updateControl(form, { emitEvent }, () => (form as FormGroup).setControl(path, new FormGroup({})));
+      updateControl(form, { emitEvent }, () =>
+        (form as FormGroup).setControl(path, new FormGroup({}))
+      );
     }
 
     form = <FormGroup>form.get([path]);
@@ -94,7 +118,9 @@ export function registerControl(field: FormlyFieldConfigCache, control?: any, em
 
   const key = paths[paths.length - 1];
   if (!field._hide && form.get([key]) !== control) {
-    updateControl(form, { emitEvent }, () => (form as FormGroup).setControl(key, control));
+    updateControl(form, { emitEvent }, () =>
+      (form as FormGroup).setControl(key, control)
+    );
   }
 }
 
@@ -106,14 +132,20 @@ export function updateValidity(c: AbstractControl) {
   }
 }
 
-function updateControl(form: FormGroup | FormArray, opts: { emitEvent: boolean }, action: Function) {
+function updateControl(
+  form: FormGroup | FormArray,
+  opts: { emitEvent: boolean },
+  action: Function
+) {
   /**
    *  workaround for https://github.com/angular/angular/issues/27679
    */
-  if (form instanceof FormGroup && !form['__patchForEachChild']) {
-    defineHiddenProp(form, '__patchForEachChild', true);
+  if (form instanceof FormGroup && !form["__patchForEachChild"]) {
+    defineHiddenProp(form, "__patchForEachChild", true);
     (form as any)._forEachChild = (cb: Function) => {
-      Object.keys(form.controls).forEach((k) => form.controls[k] && cb(form.controls[k], k));
+      Object.keys(form.controls).forEach(
+        (k) => form.controls[k] && cb(form.controls[k], k)
+      );
     };
   }
 
@@ -135,7 +167,7 @@ function updateControl(form: FormGroup | FormArray, opts: { emitEvent: boolean }
 }
 
 export function clearControl(form: AbstractControl) {
-  form['_fields'] && delete form['_fields'];
+  form["_fields"] && delete form["_fields"];
   form.setValidators(null);
   form.setAsyncValidators(null);
 

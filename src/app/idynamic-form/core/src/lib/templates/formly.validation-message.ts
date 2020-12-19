@@ -1,25 +1,34 @@
-import { Component, Input, ChangeDetectionStrategy, OnChanges } from '@angular/core';
-import { FormlyConfig } from '../services/formly.config';
-import { FormlyFieldConfig } from '../models';
-import { isObject } from '../utils';
-import { Observable, isObservable, of } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
+import {
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  OnChanges,
+} from "@angular/core";
+import { DynamicConfig } from "../services/formly.config";
+import { DynamicFieldConfig } from "../models";
+import { isObject } from "../utils";
+import { Observable, isObservable, of } from "rxjs";
+import { startWith, switchMap } from "rxjs/operators";
 
 @Component({
-  selector: 'formly-validation-message',
-  template: '{{ errorMessage$ | async }}',
+  selector: "formly-validation-message",
+  template: "{{ errorMessage$ | async }}",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormlyValidationMessage implements OnChanges {
-  @Input() field: FormlyFieldConfig;
+export class DynamicValidationMessage implements OnChanges {
+  @Input() field: DynamicFieldConfig;
   errorMessage$: Observable<string>;
 
-  constructor(private config: FormlyConfig) {}
+  constructor(private config: DynamicConfig) {}
 
   ngOnChanges() {
     this.errorMessage$ = this.field.formControl.statusChanges.pipe(
       startWith(null),
-      switchMap(() => (isObservable(this.errorMessage) ? this.errorMessage : of(this.errorMessage))),
+      switchMap(() =>
+        isObservable(this.errorMessage)
+          ? this.errorMessage
+          : of(this.errorMessage)
+      )
     );
   }
 
@@ -39,11 +48,19 @@ export class FormlyValidationMessage implements OnChanges {
           }
         }
 
-        if (this.field.validation && this.field.validation.messages && this.field.validation.messages[error]) {
+        if (
+          this.field.validation &&
+          this.field.validation.messages &&
+          this.field.validation.messages[error]
+        ) {
           message = this.field.validation.messages[error];
         }
 
-        if (this.field.validators && this.field.validators[error] && this.field.validators[error].message) {
+        if (
+          this.field.validators &&
+          this.field.validators[error] &&
+          this.field.validators[error].message
+        ) {
           message = this.field.validators[error].message;
         }
 
@@ -55,7 +72,7 @@ export class FormlyValidationMessage implements OnChanges {
           message = this.field.asyncValidators[error].message;
         }
 
-        if (typeof message === 'function') {
+        if (typeof message === "function") {
           return message(fieldForm.errors[error], this.field);
         }
 

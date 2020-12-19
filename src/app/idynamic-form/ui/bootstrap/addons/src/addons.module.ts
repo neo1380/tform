@@ -1,23 +1,23 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormlyModule } from "../../../../../idynamic-form/core/src/lib/core";
+import { DynamicModule } from "../../../../../idynamic-form/core/src/lib/core";
 import { ReactiveFormsModule } from "@angular/forms";
 
-import { FormlyWrapperAddons } from "./addons.component";
+import { DynamicWrapperAddons } from "./addons.component";
 import { addonsExtension } from "./addon.extension";
 
 @NgModule({
-  declarations: [FormlyWrapperAddons],
+  declarations: [DynamicWrapperAddons],
   imports: [
     CommonModule,
     ReactiveFormsModule,
 
-    FormlyModule.forChild({
-      wrappers: [{ name: "addons", component: FormlyWrapperAddons }],
+    DynamicModule.forChild({
+      wrappers: [{ name: "addons", component: DynamicWrapperAddons }],
       extensions: [
         { name: "addons", extension: { postPopulate: addonsExtension } },
       ],
     }),
   ],
 })
-export class FormlyBootstrapAddonsModule {}
+export class DynamicBootstrapAddonsModule {}

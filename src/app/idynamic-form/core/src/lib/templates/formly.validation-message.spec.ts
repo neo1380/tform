@@ -1,5 +1,5 @@
-import { createFormlyFieldComponent } from "@ngx-formly/core/testing";
-import { FormlyModule, FormlyFieldConfig } from "../core";
+import { createDynamicFieldComponent } from "@ngx-formly/core/testing";
+import { DynamicModule, DynamicFieldConfig } from "../core";
 import { of } from "rxjs";
 import { DebugElement } from "@angular/core";
 
@@ -7,12 +7,12 @@ function validationMessageContent(query: (v: string) => DebugElement): string {
   return query("formly-validation-message").nativeElement.textContent;
 }
 
-const renderComponent = (field: FormlyFieldConfig) => {
-  return createFormlyFieldComponent(field, {
+const renderComponent = (field: DynamicFieldConfig) => {
+  return createDynamicFieldComponent(field, {
     template:
       '<formly-validation-message [field]="field"></formly-validation-message>',
     imports: [
-      FormlyModule.forChild({
+      DynamicModule.forChild({
         validationMessages: [
           {
             name: "required",
@@ -27,7 +27,7 @@ const renderComponent = (field: FormlyFieldConfig) => {
   });
 };
 
-describe("FormlyValidationMessage Component", () => {
+describe("DynamicValidationMessage Component", () => {
   it("should not display message error when form is valid", () => {
     const { query } = renderComponent({ key: "title" });
 

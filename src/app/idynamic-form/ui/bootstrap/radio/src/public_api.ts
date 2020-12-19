@@ -1,2 +1,2 @@
-export { FormlyBootstrapRadioModule } from './radio.module';
-export { FormlyFieldRadio } from './radio.type';
+export { DynamicBootstrapRadioModule } from "./radio.module";
+export { DynamicFieldRadio } from "./radio.type";

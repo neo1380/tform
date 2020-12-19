@@ -1,13 +1,13 @@
 import { FormControl } from "@angular/forms";
 import { Subject, of, BehaviorSubject } from "rxjs";
-import { FormlyFieldConfig, FormlyFieldConfigCache } from "../../models";
+import { DynamicFieldConfig, DynamicFieldConfigCache } from "../../models";
 import { createBuilder } from "@ngx-formly/core/testing";
 
 function buildField({
   model,
   options,
   ...field
-}: FormlyFieldConfigCache): FormlyFieldConfigCache {
+}: DynamicFieldConfigCache): DynamicFieldConfigCache {
   const builder = createBuilder({
     extensions: ["core", "validation", "form", "expression"],
   });
@@ -133,7 +133,7 @@ describe("FieldExpressionExtension", () => {
       });
 
       it("should take account of parent hide state", () => {
-        const child: FormlyFieldConfig = {
+        const child: DynamicFieldConfig = {
           key: "child",
           hideExpression: () => false,
           defaultValue: "foo",
@@ -470,7 +470,7 @@ describe("FieldExpressionExtension", () => {
           });
 
         expect(build).toThrowError(
-          /\[Formly Error\] \[Expression "nested.prop"\] Cannot set property 'prop' of undefined/i
+          /\[Dynamic Error\] \[Expression "nested.prop"\] Cannot set property 'prop' of undefined/i
         );
       });
     });

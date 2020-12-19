@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { FormlySelectOptionsPipe } from './select-options.pipe';
+import { NgModule } from "@angular/core";
+import { DynamicSelectOptionsPipe } from "./select-options.pipe";
 
 @NgModule({
-  declarations: [FormlySelectOptionsPipe],
-  exports: [FormlySelectOptionsPipe],
+  declarations: [DynamicSelectOptionsPipe],
+  exports: [DynamicSelectOptionsPipe],
 })
-export class FormlySelectModule {}
+export class DynamicSelectModule {}

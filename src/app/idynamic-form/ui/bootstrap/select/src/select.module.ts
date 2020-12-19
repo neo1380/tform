@@ -1,25 +1,25 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ReactiveFormsModule } from "@angular/forms";
-import { FormlyModule } from "../../../../../idynamic-form/core/src/lib/core";
-import { FormlySelectModule } from "../../../../core/select";
+import { DynamicModule } from "../../../../../idynamic-form/core/src/lib/core";
+import { DynamicSelectModule } from "../../../../core/select";
 
-import { FormlyBootstrapFormFieldModule } from "../../form-field";
-import { FormlyFieldSelect } from "./select.type";
+import { DynamicBootstrapFormFieldModule } from "../../form-field";
+import { DynamicFieldSelect } from "./select.type";
 
 @NgModule({
-  declarations: [FormlyFieldSelect],
+  declarations: [DynamicFieldSelect],
   imports: [
     CommonModule,
     ReactiveFormsModule,
 
-    FormlyBootstrapFormFieldModule,
-    FormlySelectModule,
-    FormlyModule.forChild({
+    DynamicBootstrapFormFieldModule,
+    DynamicSelectModule,
+    DynamicModule.forChild({
       types: [
         {
           name: "select",
-          component: FormlyFieldSelect,
+          component: DynamicFieldSelect,
           wrappers: ["form-field"],
         },
         { name: "enum", extends: "select" },
@@ -27,4 +27,4 @@ import { FormlyFieldSelect } from "./select.type";
     }),
   ],
 })
-export class FormlyBootstrapSelectModule {}
+export class DynamicBootstrapSelectModule {}

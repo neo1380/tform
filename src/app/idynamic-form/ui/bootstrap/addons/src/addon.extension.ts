@@ -1,6 +1,6 @@
-import { FormlyFieldConfig } from "../../../../../idynamic-form/core/src/lib/core";
+import { DynamicFieldConfig } from "../../../../../idynamic-form/core/src/lib/core";
 
-export function addonsExtension(field: FormlyFieldConfig) {
+export function addonsExtension(field: DynamicFieldConfig) {
   if (
     !field.templateOptions ||
     (field.wrappers && field.wrappers.indexOf("addons") !== -1)

@@ -1,18 +1,18 @@
 import { fakeAsync, tick } from "@angular/core/testing";
-import { FormlyInputModule, createComponent } from "@ngx-formly/core/testing";
-import { FormlyFieldConfig, FormlyFormOptions } from "@ngx-formly/core";
+import { DynamicInputModule, createComponent } from "@ngx-formly/core/testing";
+import { DynamicFieldConfig, DynamicFormOptions } from "@ngx-formly/core";
 import { FormGroup, FormArray } from "@angular/forms";
 import { map } from "rxjs/operators";
 
-type IFormlyFormInputs = Partial<{
+type IDynamicFormInputs = Partial<{
   form: FormGroup | FormArray;
-  fields: FormlyFieldConfig[];
-  options: FormlyFormOptions;
+  fields: DynamicFieldConfig[];
+  options: DynamicFormOptions;
   model: any;
   modelChange: (m: any) => void;
 }>;
 
-const renderComponent = (inputs: IFormlyFormInputs, config: any = {}) => {
+const renderComponent = (inputs: IDynamicFormInputs, config: any = {}) => {
   inputs = {
     form: new FormGroup({}),
     model: {},
@@ -22,7 +22,7 @@ const renderComponent = (inputs: IFormlyFormInputs, config: any = {}) => {
     ...inputs,
   };
 
-  return createComponent<IFormlyFormInputs>({
+  return createComponent<IDynamicFormInputs>({
     template: `
       <form [formGroup]="form">
         <formly-form
@@ -36,7 +36,7 @@ const renderComponent = (inputs: IFormlyFormInputs, config: any = {}) => {
     `,
     inputs,
     config,
-    imports: [FormlyInputModule],
+    imports: [DynamicInputModule],
     ...config,
   });
 };
@@ -44,7 +44,7 @@ const renderComponent = (inputs: IFormlyFormInputs, config: any = {}) => {
 const FORMLY_FORM_SELECTOR = "formly-form";
 const FORMLY_FIELDS_SELECTOR = "formly-form > formly-field";
 
-describe("FormlyForm Component", () => {
+describe("DynamicForm Component", () => {
   describe("fields input", () => {
     it("should render fields", () => {
       const { query, queryAll } = renderComponent({

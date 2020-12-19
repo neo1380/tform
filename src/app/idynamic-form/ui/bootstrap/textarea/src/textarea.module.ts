@@ -1,28 +1,28 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormlyModule } from "../../../../../idynamic-form/core/src/lib/core";
+import { DynamicModule } from "../../../../../idynamic-form/core/src/lib/core";
 import { ReactiveFormsModule } from "@angular/forms";
 
-import { FormlyBootstrapFormFieldModule } from "../../form-field";
-import { FormlyFieldTextArea } from "./textarea.type";
+import { DynamicBootstrapFormFieldModule } from "../../form-field";
+import { DynamicFieldTextArea } from "./textarea.type";
 
 @NgModule({
-  declarations: [FormlyFieldTextArea],
+  declarations: [DynamicFieldTextArea],
   imports: [
     CommonModule,
     ReactiveFormsModule,
 
-    FormlyBootstrapFormFieldModule,
-    FormlyModule.forChild({
+    DynamicBootstrapFormFieldModule,
+    DynamicModule.forChild({
       types: [
         {
           name: "textarea",
-          component: FormlyFieldTextArea,
+          component: DynamicFieldTextArea,
           wrappers: ["form-field"],
         },
       ],
     }),
   ],
-  entryComponents: [FormlyFieldTextArea],
+  entryComponents: [DynamicFieldTextArea],
 })
-export class FormlyBootstrapTextAreaModule {}
+export class DynamicBootstrapTextAreaModule {}

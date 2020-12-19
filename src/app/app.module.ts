@@ -4,8 +4,8 @@ import { NgModule } from "@angular/core";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { ReactiveFormsModule } from "@angular/forms";
-import { FormlyModule } from "./idynamic-form/core/src/lib/core";
-import { FormlyBootstrapModule } from "./idynamic-form/ui/bootstrap/src/lib/bootstrap";
+import { DynamicModule } from "./idynamic-form/core/src/lib/core";
+import { DynamicBootstrapModule } from "./idynamic-form/ui/bootstrap/src/lib/bootstrap";
 
 @NgModule({
   declarations: [AppComponent],
@@ -13,8 +13,8 @@ import { FormlyBootstrapModule } from "./idynamic-form/ui/bootstrap/src/lib/boot
     BrowserModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    FormlyModule.forRoot(),
-    FormlyBootstrapModule,
+    DynamicModule.forRoot(),
+    DynamicBootstrapModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

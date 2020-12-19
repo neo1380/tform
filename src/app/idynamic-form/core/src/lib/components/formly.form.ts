@@ -9,22 +9,28 @@ import {
   Output,
   OnDestroy,
   NgZone,
-} from '@angular/core';
-import { FormGroup, FormArray } from '@angular/forms';
-import { FormlyFieldConfig, FormlyFormOptions, FormlyFieldConfigCache } from '../models';
-import { FormlyFormBuilder } from '../services/formly.builder';
-import { FormlyConfig } from '../services/formly.config';
-import { clone } from '../utils';
-import { switchMap, filter, take } from 'rxjs/operators';
-import { clearControl } from '../extensions/field-form/utils';
+} from "@angular/core";
+import { FormGroup, FormArray } from "@angular/forms";
+import {
+  DynamicFieldConfig,
+  DynamicFormOptions,
+  DynamicFieldConfigCache,
+} from "../models";
+import { DynamicFormBuilder } from "../services/formly.builder";
+import { DynamicConfig } from "../services/formly.config";
+import { clone } from "../utils";
+import { switchMap, filter, take } from "rxjs/operators";
+import { clearControl } from "../extensions/field-form/utils";
 
 @Component({
-  selector: 'formly-form',
-  template: ` <formly-field *ngFor="let f of fields" [field]="f"></formly-field> `,
-  providers: [FormlyFormBuilder],
+  selector: "formly-form",
+  template: `
+    <formly-field *ngFor="let f of fields" [field]="f"></formly-field>
+  `,
+  providers: [DynamicFormBuilder],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormlyForm implements DoCheck, OnChanges, OnDestroy {
+export class DynamicForm implements DoCheck, OnChanges, OnDestroy {
   @Input()
   set form(form: FormGroup | FormArray) {
     this.field.form = form;
@@ -42,7 +48,7 @@ export class FormlyForm implements DoCheck, OnChanges, OnDestroy {
   }
 
   @Input()
-  set fields(fieldGroup: FormlyFieldConfig[]) {
+  set fields(fieldGroup: DynamicFieldConfig[]) {
     this.setField({ fieldGroup });
   }
   get fields() {
@@ -50,7 +56,7 @@ export class FormlyForm implements DoCheck, OnChanges, OnDestroy {
   }
 
   @Input()
-  set options(options: FormlyFormOptions) {
+  set options(options: DynamicFormOptions) {
     this.setField({ options });
   }
   get options() {
@@ -59,14 +65,18 @@ export class FormlyForm implements DoCheck, OnChanges, OnDestroy {
 
   @Output() modelChange = new EventEmitter<any>();
 
-  private field: FormlyFieldConfigCache = {};
+  private field: DynamicFieldConfigCache = {};
   private _modelChangeValue: any = {};
   private valueChangesUnsubscribe = () => {};
 
-  constructor(private builder: FormlyFormBuilder, private config: FormlyConfig, private ngZone: NgZone) {}
+  constructor(
+    private builder: DynamicFormBuilder,
+    private config: DynamicConfig,
+    private ngZone: NgZone
+  ) {}
 
   ngDoCheck() {
-    if (this.config.extras.checkExpressionOn === 'changeDetectionCheck') {
+    if (this.config.extras.checkExpressionOn === "changeDetectionCheck") {
       this.checkExpressionChange();
     }
   }
@@ -76,7 +86,11 @@ export class FormlyForm implements DoCheck, OnChanges, OnDestroy {
       clearControl(this.form);
     }
 
-    if (changes.fields || changes.form || (changes.model && this._modelChangeValue !== changes.model.currentValue)) {
+    if (
+      changes.fields ||
+      changes.form ||
+      (changes.model && this._modelChangeValue !== changes.model.currentValue)
+    ) {
       this.valueChangesUnsubscribe();
       this.builder.build(this.field);
       this.valueChangesUnsubscribe = this.valueChanges();
@@ -96,8 +110,8 @@ export class FormlyForm implements DoCheck, OnChanges, OnDestroy {
 
     const sub = this.field.options.fieldChanges
       .pipe(
-        filter(({ type }) => type === 'valueChanges'),
-        switchMap(() => this.ngZone.onStable.asObservable().pipe(take(1))),
+        filter(({ type }) => type === "valueChanges"),
+        switchMap(() => this.ngZone.onStable.asObservable().pipe(take(1)))
       )
       .subscribe(() =>
         this.ngZone.runGuarded(() => {
@@ -105,13 +119,13 @@ export class FormlyForm implements DoCheck, OnChanges, OnDestroy {
           // https://github.com/ngx-formly/ngx-formly/issues/2095
           this.checkExpressionChange();
           this.modelChange.emit((this._modelChangeValue = clone(this.model)));
-        }),
+        })
       );
 
     return () => sub.unsubscribe();
   }
 
-  private setField(field: FormlyFieldConfigCache) {
+  private setField(field: DynamicFieldConfigCache) {
     this.field = {
       ...this.field,
       ...(this.config.extras.immutable ? clone(field) : field),

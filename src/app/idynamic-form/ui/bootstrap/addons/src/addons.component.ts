@@ -7,7 +7,7 @@ import { FieldWrapper } from "../../../../../idynamic-form/core/src/lib/core";
   styleUrls: ["./addons.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormlyWrapperAddons extends FieldWrapper {
+export class DynamicWrapperAddons extends FieldWrapper {
   addonRightClick($event: any) {
     if (this.to.addonRight.onClick) {
       this.to.addonRight.onClick(this.to, this, $event);

@@ -5,47 +5,47 @@ import {
   Optional,
 } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
-import { FieldWrapper, FormlyFieldConfig } from "@ngx-formly/core";
+import { FieldWrapper, DynamicFieldConfig } from "@ngx-formly/core";
 import {
-  createFormlyFieldComponent,
-  FormlyInputModule,
+  createDynamicFieldComponent,
+  DynamicInputModule,
   createFieldChangesSpy,
 } from "@ngx-formly/core/testing";
 import { tick, fakeAsync } from "@angular/core/testing";
 import { tap, map, shareReplay } from "rxjs/operators";
-import { FormlyFieldConfigCache } from "../models";
+import { DynamicFieldConfigCache } from "../models";
 import { timer } from "rxjs";
 import { FieldType } from "../templates/field.type";
 
-const renderComponent = (field: FormlyFieldConfig, opts: any = {}) => {
+const renderComponent = (field: DynamicFieldConfig, opts: any = {}) => {
   const { config, ...options } = opts;
-  return createFormlyFieldComponent(field, {
-    imports: [FormlyInputModule],
+  return createDynamicFieldComponent(field, {
+    imports: [DynamicInputModule],
     declarations: [
-      FormlyWrapperFormFieldAsync,
-      FormlyOnPushComponent,
-      FormlyParentComponent,
-      FormlyChildComponent,
+      DynamicWrapperFormFieldAsync,
+      DynamicOnPushComponent,
+      DynamicParentComponent,
+      DynamicChildComponent,
     ],
     config: {
       types: [
         {
           name: "on-push",
-          component: FormlyOnPushComponent,
+          component: DynamicOnPushComponent,
         },
         {
           name: "parent",
-          component: FormlyParentComponent,
+          component: DynamicParentComponent,
         },
         {
           name: "child",
-          component: FormlyChildComponent,
+          component: DynamicChildComponent,
         },
       ],
       wrappers: [
         {
           name: "form-field-async",
-          component: FormlyWrapperFormFieldAsync,
+          component: DynamicWrapperFormFieldAsync,
         },
       ],
       ...(config || {}),
@@ -54,7 +54,7 @@ const renderComponent = (field: FormlyFieldConfig, opts: any = {}) => {
   });
 };
 
-describe("FormlyField Component", () => {
+describe("DynamicField Component", () => {
   it("should add style display none to hidden field", () => {
     const { field, detectChanges, query } = renderComponent({ hide: true });
     const { styles } = query("formly-field");
@@ -108,7 +108,7 @@ describe("FormlyField Component", () => {
   });
 
   it("should call field hooks if set", () => {
-    const f: FormlyFieldConfig = {
+    const f: DynamicFieldConfig = {
       hooks: {
         afterContentInit: () => {},
         afterViewInit: () => {},
@@ -195,7 +195,7 @@ describe("FormlyField Component", () => {
   it("init hooks with observables", () => {
     const control = new FormControl();
     const spy = jest.fn();
-    const initHookFn = (f: FormlyFieldConfig) => {
+    const initHookFn = (f: DynamicFieldConfig) => {
       return f.formControl.valueChanges.pipe(tap(spy));
     };
 
@@ -229,7 +229,7 @@ describe("FormlyField Component", () => {
     const { query } = renderComponent({
       type: "input",
       hooks: {
-        onInit: (f: FormlyFieldConfigCache) =>
+        onInit: (f: DynamicFieldConfigCache) =>
           (f.formControl = new FormControl()),
       },
     });
@@ -501,7 +501,7 @@ describe("FormlyField Component", () => {
         ],
       });
 
-      const childInstance: FormlyChildComponent = query("formly-child")
+      const childInstance: DynamicChildComponent = query("formly-child")
         .componentInstance;
 
       expect(childInstance.parent).not.toBeNull();
@@ -520,8 +520,8 @@ describe("FormlyField Component", () => {
         ],
       });
 
-      // should inject `FormlyWrapperLabel` in `ChildComponent` without raising an error
-      const childInstance: FormlyChildComponent = query("formly-child")
+      // should inject `DynamicWrapperLabel` in `ChildComponent` without raising an error
+      const childInstance: DynamicChildComponent = query("formly-child")
         .componentInstance;
 
       expect(childInstance.wrapper).not.toBeNull();
@@ -538,7 +538,7 @@ describe("FormlyField Component", () => {
     </div>
   `,
 })
-class FormlyWrapperFormFieldAsync extends FieldWrapper {}
+class DynamicWrapperFormFieldAsync extends FieldWrapper {}
 
 @Component({
   selector: "formly-on-push-component",
@@ -548,7 +548,7 @@ class FormlyWrapperFormFieldAsync extends FieldWrapper {}
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormlyOnPushComponent extends FieldType {}
+export class DynamicOnPushComponent extends FieldType {}
 
 @Injectable()
 export class ParentService {}
@@ -560,7 +560,7 @@ export class ParentService {}
   `,
   providers: [ParentService],
 })
-export class FormlyParentComponent extends FieldType {
+export class DynamicParentComponent extends FieldType {
   constructor(public parent: ParentService) {
     super();
   }
@@ -570,10 +570,10 @@ export class FormlyParentComponent extends FieldType {
   selector: "formly-child",
   template: ` <ng-content></ng-content> `,
 })
-export class FormlyChildComponent extends FieldType {
+export class DynamicChildComponent extends FieldType {
   constructor(
     @Optional() public parent: ParentService,
-    @Optional() public wrapper: FormlyWrapperFormFieldAsync
+    @Optional() public wrapper: DynamicWrapperFormFieldAsync
   ) {
     super();
   }

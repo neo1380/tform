@@ -1,24 +1,24 @@
 import { NgModule } from "@angular/core";
 
-import { FormlyBootstrapFormFieldModule } from "../../../bootstrap/form-field";
-import { FormlyBootstrapInputModule } from "../../../bootstrap/input";
-import { FormlyBootstrapTextAreaModule } from "../../../bootstrap/textarea";
-import { FormlyBootstrapRadioModule } from "../../../bootstrap/radio";
-import { FormlyBootstrapCheckboxModule } from "../../../bootstrap/checkbox";
-import { FormlyBootstrapMultiCheckboxModule } from "../../../bootstrap/multicheckbox";
-import { FormlyBootstrapSelectModule } from "../../../bootstrap/select";
-import { FormlyBootstrapAddonsModule } from "../../../bootstrap/addons";
+import { DynamicBootstrapFormFieldModule } from "../../../bootstrap/form-field";
+import { DynamicBootstrapInputModule } from "../../../bootstrap/input";
+import { DynamicBootstrapTextAreaModule } from "../../../bootstrap/textarea";
+import { DynamicBootstrapRadioModule } from "../../../bootstrap/radio";
+import { DynamicBootstrapCheckboxModule } from "../../../bootstrap/checkbox";
+import { DynamicBootstrapMultiCheckboxModule } from "../../../bootstrap/multicheckbox";
+import { DynamicBootstrapSelectModule } from "../../../bootstrap/select";
+import { DynamicBootstrapAddonsModule } from "../../../bootstrap/addons";
 
 @NgModule({
   imports: [
-    FormlyBootstrapFormFieldModule,
-    FormlyBootstrapInputModule,
-    FormlyBootstrapTextAreaModule,
-    FormlyBootstrapRadioModule,
-    FormlyBootstrapCheckboxModule,
-    FormlyBootstrapMultiCheckboxModule,
-    FormlyBootstrapSelectModule,
-    FormlyBootstrapAddonsModule,
+    DynamicBootstrapFormFieldModule,
+    DynamicBootstrapInputModule,
+    DynamicBootstrapTextAreaModule,
+    DynamicBootstrapRadioModule,
+    DynamicBootstrapCheckboxModule,
+    DynamicBootstrapMultiCheckboxModule,
+    DynamicBootstrapSelectModule,
+    DynamicBootstrapAddonsModule,
   ],
 })
-export class FormlyBootstrapModule {}
+export class DynamicBootstrapModule {}

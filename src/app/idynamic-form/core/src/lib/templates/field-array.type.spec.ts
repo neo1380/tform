@@ -1,16 +1,16 @@
 import { Component } from "@angular/core";
-import { FormlyFieldConfig } from "@ngx-formly/core";
+import { DynamicFieldConfig } from "@ngx-formly/core";
 import { FieldArrayType } from "./field-array.type";
 import {
-  FormlyInputModule,
-  createFormlyFieldComponent,
+  DynamicInputModule,
+  createDynamicFieldComponent,
   createFieldChangesSpy,
 } from "@ngx-formly/core/testing";
 import { FormArray } from "@angular/forms";
 
-const renderComponent = (field: FormlyFieldConfig, config = {}) => {
-  return createFormlyFieldComponent(field, {
-    imports: [FormlyInputModule],
+const renderComponent = (field: DynamicFieldConfig, config = {}) => {
+  return createDynamicFieldComponent(field, {
+    imports: [DynamicInputModule],
     declarations: [ArrayTypeComponent],
     config: {
       types: [

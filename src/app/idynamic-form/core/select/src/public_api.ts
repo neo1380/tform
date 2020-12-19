@@ -1,2 +1,2 @@
-export { FormlySelectModule } from './select.module';
-export { FormlySelectOptionsPipe as ɵFormlySelectOptionsPipe } from './select-options.pipe';
+export { DynamicSelectModule } from "./select.module";
+export { DynamicSelectOptionsPipe as ɵDynamicSelectOptionsPipe } from "./select-options.pipe";

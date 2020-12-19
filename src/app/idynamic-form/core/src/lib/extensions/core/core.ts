@@ -1,9 +1,9 @@
 import { ChangeDetectorRef } from "@angular/core";
-import { FormlyConfig } from "../../services/formly.config";
+import { DynamicConfig } from "../../services/formly.config";
 import {
-  FormlyFieldConfigCache,
-  FormlyValueChangeEvent,
-  FormlyExtension,
+  DynamicFieldConfigCache,
+  DynamicValueChangeEvent,
+  DynamicExtension,
 } from "../../models";
 import {
   getFieldId,
@@ -17,11 +17,11 @@ import {
 import { Subject } from "rxjs";
 
 /** @experimental */
-export class CoreExtension implements FormlyExtension {
+export class CoreExtension implements DynamicExtension {
   private formId = 0;
-  constructor(private config: FormlyConfig) {}
+  constructor(private config: DynamicConfig) {}
 
-  prePopulate(field: FormlyFieldConfigCache) {
+  prePopulate(field: DynamicFieldConfigCache) {
     const root = field.parent;
     this.initRootOptions(field);
     if (root) {
@@ -39,7 +39,7 @@ export class CoreExtension implements FormlyExtension {
     this.getFieldComponentInstance(field).prePopulate();
   }
 
-  onPopulate(field: FormlyFieldConfigCache) {
+  onPopulate(field: DynamicFieldConfigCache) {
     this.initFieldOptions(field);
     this.getFieldComponentInstance(field).onPopulate();
     if (field.fieldGroup) {
@@ -59,11 +59,11 @@ export class CoreExtension implements FormlyExtension {
     }
   }
 
-  postPopulate(field: FormlyFieldConfigCache) {
+  postPopulate(field: DynamicFieldConfigCache) {
     this.getFieldComponentInstance(field).postPopulate();
   }
 
-  private initRootOptions(field: FormlyFieldConfigCache) {
+  private initRootOptions(field: DynamicFieldConfigCache) {
     if (field.parent) {
       return;
     }
@@ -78,7 +78,7 @@ export class CoreExtension implements FormlyExtension {
       defineHiddenProp(
         options,
         "fieldChanges",
-        new Subject<FormlyValueChangeEvent>()
+        new Subject<DynamicValueChangeEvent>()
       );
     }
 
@@ -88,12 +88,12 @@ export class CoreExtension implements FormlyExtension {
 
     options._markForCheck = (f) => {
       console.warn(
-        `Formly: 'options._markForCheck' is deprecated since v6.0, use 'options.detectChanges' instead.`
+        `Dynamic: 'options._markForCheck' is deprecated since v6.0, use 'options.detectChanges' instead.`
       );
       options.detectChanges(f);
     };
 
-    options.detectChanges = (f: FormlyFieldConfigCache) => {
+    options.detectChanges = (f: DynamicFieldConfigCache) => {
       if (f._componentRefs) {
         f._componentRefs.forEach((ref) => {
           // NOTE: we cannot use ref.changeDetectorRef, see https://github.com/ngx-formly/ngx-formly/issues/2191
@@ -134,7 +134,7 @@ export class CoreExtension implements FormlyExtension {
     field.options.updateInitialValue();
   }
 
-  private initFieldOptions(field: FormlyFieldConfigCache) {
+  private initFieldOptions(field: DynamicFieldConfigCache) {
     reverseDeepMerge(field, {
       id: getFieldId(`formly_${this.formId}`, field, field["index"]),
       hooks: {},
@@ -193,9 +193,9 @@ export class CoreExtension implements FormlyExtension {
     field.wrappers = field.wrappers || [];
   }
 
-  private getFieldComponentInstance(field: FormlyFieldConfigCache) {
+  private getFieldComponentInstance(field: DynamicFieldConfigCache) {
     const componentRef = this.config.resolveFieldTypeRef(field);
-    const instance: FormlyExtension = componentRef
+    const instance: DynamicExtension = componentRef
       ? (componentRef.instance as any)
       : {};
 

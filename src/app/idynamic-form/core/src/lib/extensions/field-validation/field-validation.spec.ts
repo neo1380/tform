@@ -5,10 +5,10 @@ import {
   FormGroup,
 } from "@angular/forms";
 import { of } from "rxjs";
-import { FormlyFieldConfigCache } from "../../models";
+import { DynamicFieldConfigCache } from "../../models";
 import { createBuilder } from "@ngx-formly/core/testing";
 
-function buildField(field: FormlyFieldConfigCache): FormlyFieldConfigCache {
+function buildField(field: DynamicFieldConfigCache): DynamicFieldConfigCache {
   const builder = createBuilder({
     extensions: ["core", "validation"],
     onInit: (c) =>
@@ -35,7 +35,7 @@ function buildField(field: FormlyFieldConfigCache): FormlyFieldConfigCache {
 }
 
 function validate(
-  field: FormlyFieldConfigCache,
+  field: DynamicFieldConfigCache,
   value: any,
   errors: ValidationErrors
 ) {
@@ -44,7 +44,7 @@ function validate(
 }
 
 function asyncValidate(
-  field: FormlyFieldConfigCache,
+  field: DynamicFieldConfigCache,
   value: any,
   errors: ValidationErrors
 ) {
@@ -262,7 +262,7 @@ describe("FieldValidationExtension: initialise field validators", () => {
     expect(control.errors).toEqual({ val_with_options: { foo: "true" } });
   });
 
-  it(`pass parameters to FormlyConfig validator`, () => {
+  it(`pass parameters to DynamicConfig validator`, () => {
     const field = buildField({
       validators: {
         validation: [{ name: "val_with_options" }],

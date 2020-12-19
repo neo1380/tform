@@ -1,1 +1,1 @@
-export { FormlyBootstrapAddonsModule } from './addons.module';
+export { DynamicBootstrapAddonsModule } from "./addons.module";

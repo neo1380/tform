@@ -16,7 +16,7 @@ import { FieldType } from "../../../../../idynamic-form/core/src/lib/core";
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormlyFieldTextArea extends FieldType {
+export class DynamicFieldTextArea extends FieldType {
   defaultOptions = {
     templateOptions: {
       cols: 1,

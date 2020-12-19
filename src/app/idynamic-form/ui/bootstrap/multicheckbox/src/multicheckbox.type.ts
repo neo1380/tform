@@ -42,7 +42,7 @@ import { FieldType } from "../../../../../idynamic-form/core/src/lib/core";
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormlyFieldMultiCheckbox extends FieldType {
+export class DynamicFieldMultiCheckbox extends FieldType {
   defaultOptions = {
     templateOptions: {
       options: [],

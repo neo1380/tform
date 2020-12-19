@@ -59,7 +59,7 @@ export interface ConfigOption {
     showError?: (field: FieldType) => boolean;
 
     /**
-     * Defines the option which formly rely on to check field expression properties.
+     * Defines the option which dynamic form rely on to check field expression properties.
      * - `modelChange`: perform a check when the value of the form control changes (Will be set by default in the next major version).
      * - `changeDetectionCheck`: triggers an immediate check when `ngDoCheck` is called.
      *

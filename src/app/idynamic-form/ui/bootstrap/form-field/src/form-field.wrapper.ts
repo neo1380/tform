@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { FieldWrapper } from "../../../../../idynamic-form/core/src/lib/core";
 
 @Component({
-  selector: "formly-wrapper-form-field",
+  selector: "dynamicform-wrapper-form-field",
   template: `
     <div class="form-group" [class.has-error]="showError">
       <label *ngIf="to.label && to.hideLabel !== true" [attr.for]="id">
@@ -13,7 +13,9 @@ import { FieldWrapper } from "../../../../../idynamic-form/core/src/lib/core";
       <ng-template #fieldComponent></ng-template>
 
       <div *ngIf="showError" class="invalid-feedback" [style.display]="'block'">
-        <formly-validation-message [field]="field"></formly-validation-message>
+        <dynamicform-validation-message
+          [field]="field"
+        ></dynamicform-validation-message>
       </div>
 
       <small *ngIf="to.description" class="form-text text-muted">{{

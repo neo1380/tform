@@ -1,4 +1,4 @@
-export { DynamicForm } from "./components/formly.form";
+export { DynamicForm } from "./components/dynamic.form";
 export {
   DynamicFieldConfig,
   DynamicTemplateOptions,
@@ -6,12 +6,15 @@ export {
   ConfigOption,
   DynamicExtension,
 } from "./models";
-export { DynamicField } from "./components/formly.field";
-export { DynamicAttributes as ɵDynamicAttributes } from "./templates/formly.attributes";
-export { DynamicGroup as ɵDynamicGroup } from "./templates/formly.group";
-export { DynamicValidationMessage as ɵDynamicValidationMessage } from "./templates/formly.validation-message";
-export { FORMLY_CONFIG, DynamicConfig } from "./services/formly.config";
-export { DynamicFormBuilder } from "./services/formly.builder";
+export { DynamicField } from "./components/dynamic.field";
+export { DynamicAttributes as ɵDynamicAttributes } from "./templates/dynamicform.attributes";
+export { DynamicGroup as ɵDynamicGroup } from "./templates/dynamicform.group";
+export { DynamicValidationMessage as ɵDynamicValidationMessage } from "./templates/dynamicform.validation-message";
+export {
+  DYNAMICFORM_CONFIG,
+  DynamicConfig,
+} from "./services/dynamicform.config";
+export { DynamicFormBuilder } from "./services/dynamicform.builder";
 export { FieldType } from "./templates/field.type";
 export { FieldArrayType } from "./templates/field-array.type";
 export { FieldWrapper } from "./templates/field.wrapper";

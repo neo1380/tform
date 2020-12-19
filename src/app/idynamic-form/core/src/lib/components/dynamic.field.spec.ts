@@ -1,16 +1,16 @@
-import {
+/* import {
   Component,
   ChangeDetectionStrategy,
   Injectable,
   Optional,
 } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
-import { FieldWrapper, DynamicFieldConfig } from "@ngx-formly/core";
+import { FieldWrapper, DynamicFieldConfig } from "../core";
 import {
   createDynamicFieldComponent,
   DynamicInputModule,
   createFieldChangesSpy,
-} from "@ngx-formly/core/testing";
+} from "../core/testing";
 import { tick, fakeAsync } from "@angular/core/testing";
 import { tap, map, shareReplay } from "rxjs/operators";
 import { DynamicFieldConfigCache } from "../models";
@@ -57,7 +57,7 @@ const renderComponent = (field: DynamicFieldConfig, opts: any = {}) => {
 describe("DynamicField Component", () => {
   it("should add style display none to hidden field", () => {
     const { field, detectChanges, query } = renderComponent({ hide: true });
-    const { styles } = query("formly-field");
+    const { styles } = query("dynamicform-field");
 
     expect(styles.display).toEqual("none");
 
@@ -69,7 +69,7 @@ describe("DynamicField Component", () => {
   it("should add field className", () => {
     const { query } = renderComponent({ className: "foo-class" });
 
-    expect(query("formly-field").attributes.class).toEqual("foo-class");
+    expect(query("dynamicform-field").attributes.class).toEqual("foo-class");
   });
 
   describe("host attrs", () => {
@@ -78,32 +78,32 @@ describe("DynamicField Component", () => {
         hide: true,
         className: "foo",
       });
-      expect(query("formly-field").attributes.class).toEqual("foo");
-      expect(query("formly-field").styles.display).toEqual("none");
+      expect(query("dynamicform-field").attributes.class).toEqual("foo");
+      expect(query("dynamicform-field").styles.display).toEqual("none");
     });
 
     it("should update style and class attrs on change", () => {
       const { field, query } = renderComponent({});
 
-      expect(query("formly-field").attributes.class).toEqual(undefined);
-      expect(query("formly-field").styles.display).toEqual("");
+      expect(query("dynamicform-field").attributes.class).toEqual(undefined);
+      expect(query("dynamicform-field").styles.display).toEqual("");
 
       field.hide = true;
       field.className = "foo";
 
-      expect(query("formly-field").attributes.class).toEqual("foo");
-      expect(query("formly-field").styles.display).toEqual("none");
+      expect(query("dynamicform-field").attributes.class).toEqual("foo");
+      expect(query("dynamicform-field").styles.display).toEqual("none");
     });
 
     it("should not override existing class", () => {
       const { query } = renderComponent(
         {},
         {
-          template: '<formly-field class="foo" [field]="field"></formly-field>',
+          template: '<dynamicform-field class="foo" [field]="field"></dynamicform-field>',
         }
       );
 
-      expect(query("formly-field").attributes.class).toEqual("foo");
+      expect(query("dynamicform-field").attributes.class).toEqual("foo");
     });
   });
 
@@ -138,8 +138,8 @@ describe("DynamicField Component", () => {
       wrappers: [],
     });
 
-    expect(query("formly-wrapper-form-field")).toBeNull();
-    expect(query("formly-type-input")).not.toBeNull();
+    expect(query("dynamicform-wrapper-form-field")).toBeNull();
+    expect(query("dynamicform-type-input")).not.toBeNull();
   });
 
   it("should render field component with wrapper", () => {
@@ -149,8 +149,8 @@ describe("DynamicField Component", () => {
       wrappers: ["form-field"],
     });
 
-    expect(query("formly-wrapper-form-field")).not.toBeNull();
-    expect(query("formly-type-input")).not.toBeNull();
+    expect(query("dynamicform-wrapper-form-field")).not.toBeNull();
+    expect(query("dynamicform-type-input")).not.toBeNull();
   });
 
   it("should not throw error when field is null", () => {
@@ -167,12 +167,12 @@ describe("DynamicField Component", () => {
       templateOptions: { render: false },
     });
 
-    expect(query("formly-wrapper-form-field-async")).not.toBeNull();
-    expect(query("formly-type-input")).toBeNull();
+    expect(query("dynamicform-wrapper-form-field-async")).not.toBeNull();
+    expect(query("dynamicform-type-input")).toBeNull();
 
     field.templateOptions.render = true;
     detectChanges();
-    expect(query("formly-type-input")).not.toBeNull();
+    expect(query("dynamicform-type-input")).not.toBeNull();
   });
 
   it("should lazy render field components", () => {
@@ -185,11 +185,11 @@ describe("DynamicField Component", () => {
       { config: { extras: { lazyRender: true } } }
     );
 
-    expect(query("formly-type-input")).toBeNull();
+    expect(query("dynamicform-type-input")).toBeNull();
 
     field.hide = false;
     detectChanges();
-    expect(query("formly-type-input")).not.toBeNull();
+    expect(query("dynamicform-type-input")).not.toBeNull();
   });
 
   it("init hooks with observables", () => {
@@ -234,10 +234,10 @@ describe("DynamicField Component", () => {
       },
     });
 
-    expect(query("formly-type-input")).not.toBeNull();
+    expect(query("dynamicform-type-input")).not.toBeNull();
   });
 
-  it("should render field type for each formly-field instance", () => {
+  it("should render field type for each dynamicform-field instance", () => {
     const { queryAll } = renderComponent(
       {
         type: "input",
@@ -247,13 +247,13 @@ describe("DynamicField Component", () => {
       },
       {
         template: `
-          <formly-field *ngIf="field.templateOptions.duplicate" [field]="field"></formly-field>
-          <formly-field class="target" [field]="field"></formly-field>
+          <dynamicform-field *ngIf="field.templateOptions.duplicate" [field]="field"></dynamicform-field>
+          <dynamicform-field class="target" [field]="field"></dynamicform-field>
         `,
       }
     );
 
-    expect(queryAll("formly-type-input").length).toEqual(2);
+    expect(queryAll("dynamicform-type-input").length).toEqual(2);
   });
 
   it("should update template options of OnPush FieldType #2191", async () => {
@@ -395,7 +395,7 @@ describe("DynamicField Component", () => {
       subscription.unsubscribe();
     });
 
-    // https://github.com/ngx-formly/ngx-formly/issues/1857
+    // https://github.com/ngx-dynamicform/ngx-dynamicform/issues/1857
     it("should emit a valid model value when using square bracket notation for key", () => {
       const { field } = renderComponent({
         key: "o[0].0.name",
@@ -501,7 +501,7 @@ describe("DynamicField Component", () => {
         ],
       });
 
-      const childInstance: DynamicChildComponent = query("formly-child")
+      const childInstance: DynamicChildComponent = query("dynamicform-child")
         .componentInstance;
 
       expect(childInstance.parent).not.toBeNull();
@@ -521,7 +521,7 @@ describe("DynamicField Component", () => {
       });
 
       // should inject `DynamicWrapperLabel` in `ChildComponent` without raising an error
-      const childInstance: DynamicChildComponent = query("formly-child")
+      const childInstance: DynamicChildComponent = query("dynamicform-child")
         .componentInstance;
 
       expect(childInstance.wrapper).not.toBeNull();
@@ -531,7 +531,7 @@ describe("DynamicField Component", () => {
 });
 
 @Component({
-  selector: "formly-wrapper-form-field-async",
+  selector: "dynamicform-wrapper-form-field-async",
   template: `
     <div *ngIf="to.render">
       <ng-container #fieldComponent></ng-container>
@@ -541,7 +541,7 @@ describe("DynamicField Component", () => {
 class DynamicWrapperFormFieldAsync extends FieldWrapper {}
 
 @Component({
-  selector: "formly-on-push-component",
+  selector: "dynamicform-on-push-component",
   template: `
     <div class="to">{{ to | json }}</div>
     <div class="formState">{{ formState | json }}</div>
@@ -554,9 +554,9 @@ export class DynamicOnPushComponent extends FieldType {}
 export class ParentService {}
 
 @Component({
-  selector: "formly-parent",
+  selector: "dynamicform-parent",
   template: `
-    <formly-field *ngFor="let f of field.fieldGroup" [field]="f"></formly-field>
+    <dynamicform-field *ngFor="let f of field.fieldGroup" [field]="f"></dynamicform-field>
   `,
   providers: [ParentService],
 })
@@ -567,7 +567,7 @@ export class DynamicParentComponent extends FieldType {
 }
 
 @Component({
-  selector: "formly-child",
+  selector: "dynamicform-child",
   template: ` <ng-content></ng-content> `,
 })
 export class DynamicChildComponent extends FieldType {
@@ -578,3 +578,4 @@ export class DynamicChildComponent extends FieldType {
     super();
   }
 }
+ */

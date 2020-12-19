@@ -9,7 +9,7 @@ import { FieldType } from "../../../../../idynamic-form/core/src/lib/core";
 import { take } from "rxjs/operators";
 
 @Component({
-  selector: "formly-field-select",
+  selector: "dynamicform-field-select",
   template: `
     <select
       *ngIf="to.multiple; else singleSelect"
@@ -19,10 +19,10 @@ import { take } from "rxjs/operators";
       [formControl]="formControl"
       [compareWith]="to.compareWith"
       [class.is-invalid]="showError"
-      [formlyAttributes]="field"
+      [dynamicformAttributes]="field"
     >
       <ng-container
-        *ngIf="to.options | formlySelectOptions: field | async as opts"
+        *ngIf="to.options | dynamicformSelectOptions: field | async as opts"
       >
         <ng-container *ngIf="to._flatOptions; else grouplist">
           <ng-container *ngFor="let opt of opts">
@@ -64,13 +64,13 @@ import { take } from "rxjs/operators";
         [compareWith]="to.compareWith"
         [class.custom-select]="to.customSelect"
         [class.is-invalid]="showError"
-        [formlyAttributes]="field"
+        [dynamicformAttributes]="field"
       >
         <option *ngIf="to.placeholder" [ngValue]="undefined">
           {{ to.placeholder }}
         </option>
         <ng-container
-          *ngIf="to.options | formlySelectOptions: field | async as opts"
+          *ngIf="to.options | dynamicformSelectOptions: field | async as opts"
         >
           <ng-container *ngIf="to._flatOptions; else grouplist">
             <ng-container *ngFor="let opt of opts">

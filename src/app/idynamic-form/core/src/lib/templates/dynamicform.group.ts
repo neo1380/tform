@@ -2,9 +2,12 @@ import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { FieldType } from "./field.type";
 
 @Component({
-  selector: "formly-group",
+  selector: "dynamicform-group",
   template: `
-    <formly-field *ngFor="let f of field.fieldGroup" [field]="f"></formly-field>
+    <dynamicform-field
+      *ngFor="let f of field.fieldGroup"
+      [field]="f"
+    ></dynamicform-field>
     <ng-content></ng-content>
   `,
   host: {

@@ -4,14 +4,14 @@ import {
   ChangeDetectionStrategy,
   OnChanges,
 } from "@angular/core";
-import { DynamicConfig } from "../services/formly.config";
+import { DynamicConfig } from "../services/dynamicform.config";
 import { DynamicFieldConfig } from "../models";
 import { isObject } from "../utils";
 import { Observable, isObservable, of } from "rxjs";
 import { startWith, switchMap } from "rxjs/operators";
 
 @Component({
-  selector: "formly-validation-message",
+  selector: "dynamicform-validation-message",
   template: "{{ errorMessage$ | async }}",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

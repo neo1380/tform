@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { FieldWrapper } from "../../../../../idynamic-form/core/src/lib/core";
 
 @Component({
-  selector: "formly-wrapper-addons",
+  selector: "dynamicform-wrapper-addons",
   templateUrl: "./addons.component.html",
   styleUrls: ["./addons.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

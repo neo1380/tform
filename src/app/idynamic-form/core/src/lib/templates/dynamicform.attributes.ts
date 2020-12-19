@@ -12,14 +12,14 @@ import {
 import { DynamicFieldConfig, DynamicTemplateOptions } from "../models";
 import {
   defineHiddenProp,
-  FORMLY_VALIDATORS,
+  DYNAMICFORM_VALIDATORS,
   observe,
   IObserver,
 } from "../utils";
 import { DOCUMENT } from "@angular/common";
 
 @Directive({
-  selector: "[formlyAttributes]",
+  selector: "[dynamicformAttributes]",
   host: {
     "(focus)": "onFocus($event)",
     "(blur)": "onBlur($event)",
@@ -27,13 +27,13 @@ import { DOCUMENT } from "@angular/common";
   },
 })
 export class DynamicAttributes implements OnChanges, DoCheck, OnDestroy {
-  @Input("formlyAttributes") field: DynamicFieldConfig;
+  @Input("dynamicformAttributes") field: DynamicFieldConfig;
   @Input() id: string;
 
   private document: Document;
   private uiAttributesCache: any = {};
   private uiAttributes = [
-    ...FORMLY_VALIDATORS,
+    ...DYNAMICFORM_VALIDATORS,
     "tabindex",
     "placeholder",
     "readonly",
@@ -42,11 +42,6 @@ export class DynamicAttributes implements OnChanges, DoCheck, OnDestroy {
   ];
   private focusObserver: IObserver<boolean>;
 
-  /**
-   * HostBinding doesn't register listeners conditionally which may produce some perf issues.
-   *
-   * Dynamic issue: https://github.com/ngx-formly/ngx-formly/issues/1991
-   */
   private uiEvents = {
     listeners: [],
     events: ["click", "keyup", "keydown", "keypress"],
@@ -123,14 +118,6 @@ export class DynamicAttributes implements OnChanges, DoCheck, OnDestroy {
     }
   }
 
-  /**
-   * We need to re-evaluate all the attributes on every change detection cycle, because
-   * by using a HostBinding we run into certain edge cases. This means that whatever logic
-   * is in here has to be super lean or we risk seriously damaging or destroying the performance.
-   *
-   * Dynamic issue: https://github.com/ngx-formly/ngx-formly/issues/1317
-   * Material issue: https://github.com/angular/components/issues/14024
-   */
   ngDoCheck() {
     this.uiAttributes.forEach((attr) => {
       const value = this.to[attr];

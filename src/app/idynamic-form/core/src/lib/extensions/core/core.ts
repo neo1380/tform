@@ -1,5 +1,5 @@
 import { ChangeDetectorRef } from "@angular/core";
-import { DynamicConfig } from "../../services/formly.config";
+import { DynamicConfig } from "../../services/dynamicform.config";
 import {
   DynamicFieldConfigCache,
   DynamicValueChangeEvent,
@@ -96,7 +96,6 @@ export class CoreExtension implements DynamicExtension {
     options.detectChanges = (f: DynamicFieldConfigCache) => {
       if (f._componentRefs) {
         f._componentRefs.forEach((ref) => {
-          // NOTE: we cannot use ref.changeDetectorRef, see https://github.com/ngx-formly/ngx-formly/issues/2191
           const changeDetectorRef = ref.injector.get(ChangeDetectorRef);
           changeDetectorRef.markForCheck();
         });
@@ -135,8 +134,9 @@ export class CoreExtension implements DynamicExtension {
   }
 
   private initFieldOptions(field: DynamicFieldConfigCache) {
+    /*need to verify the dynamic form id */
     reverseDeepMerge(field, {
-      id: getFieldId(`formly_${this.formId}`, field, field["index"]),
+      id: getFieldId(`dynamicform_${this.formId}`, field, field["index"]),
       hooks: {},
       modelOptions: {},
       templateOptions:
@@ -155,15 +155,15 @@ export class CoreExtension implements DynamicExtension {
     }
 
     if (
-      field.type !== "formly-template" &&
+      field.type !== "dynamicform-template" &&
       (field.template ||
         (field.expressionProperties && field.expressionProperties.template))
     ) {
-      field.type = "formly-template";
+      field.type = "dynamicform-template";
     }
 
     if (!field.type && field.fieldGroup) {
-      field.type = "formly-group";
+      field.type = "dynamicform-group";
     }
 
     if (field.type) {

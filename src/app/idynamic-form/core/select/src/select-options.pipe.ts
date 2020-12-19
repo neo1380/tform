@@ -17,7 +17,7 @@ type ITransformOption = Partial<{
   groupProp: (option: any) => string;
 }>;
 
-@Pipe({ name: "formlySelectOptions" })
+@Pipe({ name: "dynamicformSelectOptions" })
 export class DynamicSelectOptionsPipe implements PipeTransform {
   transform(
     options: any,

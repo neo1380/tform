@@ -1,12 +1,15 @@
 import { NgModule, ModuleWithProviders, Inject, Optional } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { DynamicForm } from "./components/formly.form";
-import { DynamicField } from "./components/formly.field";
-import { DynamicAttributes } from "./templates/formly.attributes";
-import { DynamicConfig, FORMLY_CONFIG } from "./services/formly.config";
-import { DynamicFormBuilder } from "./services/formly.builder";
-import { DynamicGroup } from "./templates/formly.group";
-import { DynamicValidationMessage } from "./templates/formly.validation-message";
+import { DynamicForm } from "./components/dynamic.form";
+import { DynamicField } from "./components/dynamic.field";
+import { DynamicAttributes } from "./templates/dynamicform.attributes";
+import {
+  DynamicConfig,
+  DYNAMICFORM_CONFIG,
+} from "./services/dynamicform.config";
+import { DynamicFormBuilder } from "./services/dynamicform.builder";
+import { DynamicGroup } from "./templates/dynamicform.group";
+import { DynamicValidationMessage } from "./templates/dynamicform.validation-message";
 import { DynamicTemplateType } from "./templates/field-template.type";
 
 import { FieldExpressionExtension } from "./extensions/field-expression/field-expression";
@@ -18,8 +21,8 @@ import { ConfigOption } from "./models";
 export function defaultDynamicConfig(config: DynamicConfig): ConfigOption {
   return {
     types: [
-      { name: "formly-group", component: DynamicGroup },
-      { name: "formly-template", component: DynamicTemplateType },
+      { name: "dynamicform-group", component: DynamicGroup },
+      { name: "dynamicform-template", component: DynamicTemplateType },
     ],
     extensions: [
       { name: "core", extension: new CoreExtension(config) },
@@ -60,12 +63,12 @@ export class DynamicModule {
       ngModule: DynamicModule,
       providers: [
         {
-          provide: FORMLY_CONFIG,
+          provide: DYNAMICFORM_CONFIG,
           multi: true,
           useFactory: defaultDynamicConfig,
           deps: [DynamicConfig],
         },
-        { provide: FORMLY_CONFIG, useValue: config, multi: true },
+        { provide: DYNAMICFORM_CONFIG, useValue: config, multi: true },
         DynamicConfig,
         DynamicFormBuilder,
       ],
@@ -78,7 +81,7 @@ export class DynamicModule {
     return {
       ngModule: DynamicModule,
       providers: [
-        { provide: FORMLY_CONFIG, useValue: config, multi: true },
+        { provide: DYNAMICFORM_CONFIG, useValue: config, multi: true },
         DynamicFormBuilder,
       ],
     };
@@ -86,7 +89,7 @@ export class DynamicModule {
 
   constructor(
     configService: DynamicConfig,
-    @Optional() @Inject(FORMLY_CONFIG) configs: ConfigOption[] = []
+    @Optional() @Inject(DYNAMICFORM_CONFIG) configs: ConfigOption[] = []
   ) {
     if (!configs) {
       return;

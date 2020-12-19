@@ -15,7 +15,7 @@ export interface DynamicFieldConfig {
   key?: string | number | string[];
 
   /**
-   * This should be a formly-field type added either by you or a plugin. More information over at Creating Dynamic Fields.
+   * This should be a dynamicform-field type added either by you or a plugin. More information over at Creating Dynamic Fields.
    */
   type?: string;
 
@@ -82,7 +82,7 @@ export interface DynamicFieldConfig {
 
   /**
    *  It is expected to be the name of the wrappers.
-   *  The formly field template will be wrapped by the first wrapper, then the second, then the third, etc.
+   *  The dynamic form field template will be wrapped by the first wrapper, then the second, then the third, etc.
    *  You can also specify these as part of a type (which is the recommended approach).
    */
   wrappers?: string[];
@@ -111,12 +111,12 @@ export interface DynamicFieldConfig {
   };
 
   /**
-   * You can specify your own class that will be applied to the `formly-field` component.
+   * You can specify your own class that will be applied to the `dynamicform-field` component.
    */
   className?: string;
 
   /**
-   * Specify your own class that will be applied to the `formly-group` component.
+   * Specify your own class that will be applied to the `dynamicform-group` component.
    */
   fieldGroupClassName?: string;
 

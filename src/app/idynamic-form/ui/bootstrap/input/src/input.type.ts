@@ -2,14 +2,14 @@ import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { FieldType } from "../../../../../idynamic-form/core/src/lib/core";
 
 @Component({
-  selector: "formly-field-input",
+  selector: "dynamicform-field-input",
   template: `
     <input
       *ngIf="type !== 'number'; else numberTmp"
       [type]="type"
       [formControl]="formControl"
       class="form-control"
-      [formlyAttributes]="field"
+      [dynamicformAttributes]="field"
       [class.is-invalid]="showError"
     />
     <ng-template #numberTmp>
@@ -17,7 +17,7 @@ import { FieldType } from "../../../../../idynamic-form/core/src/lib/core";
         type="number"
         [formControl]="formControl"
         class="form-control"
-        [formlyAttributes]="field"
+        [dynamicformAttributes]="field"
         [class.is-invalid]="showError"
       />
     </ng-template>

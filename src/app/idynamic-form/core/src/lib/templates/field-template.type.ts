@@ -3,7 +3,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 import { FieldType } from "./field.type";
 
 @Component({
-  selector: "formly-template",
+  selector: "dynamicform-template",
   template: `<div [innerHtml]="template"></div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -44,7 +44,7 @@ export function getKeyPath(field: DynamicFieldConfigCache): string[] {
   return field._keyPath.path.slice(0);
 }
 
-export const FORMLY_VALIDATORS = [
+export const DYNAMICFORM_VALIDATORS = [
   "required",
   "pattern",
   "minLength",

@@ -1,6 +1,6 @@
 import { Injectable, InjectionToken, ComponentRef } from "@angular/core";
-import { FieldType } from "./../templates/field.type";
-import { reverseDeepMerge, defineHiddenProp } from "./../utils";
+import { FieldType } from "../templates/field.type";
+import { reverseDeepMerge, defineHiddenProp } from "../utils";
 import {
   DynamicFieldConfig,
   DynamicFieldConfigCache,
@@ -12,12 +12,12 @@ import {
   ValidationMessageOption,
 } from "../models";
 
-export const FORMLY_CONFIG = new InjectionToken<ConfigOption[]>(
-  "FORMLY_CONFIG"
+export const DYNAMICFORM_CONFIG = new InjectionToken<ConfigOption[]>(
+  "DYNAMICFORM_CONFIG"
 );
 
 /**
- * Maintains list of formly field directive types. This can be used to register new field templates.
+ * Maintains list of dynamicform field directive types. This can be used to register new field templates.
  */
 @Injectable({ providedIn: "root" })
 export class DynamicConfig {

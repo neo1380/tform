@@ -16,7 +16,7 @@ import {
   ChangeDetectionStrategy,
 } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { DynamicConfig } from "../services/formly.config";
+import { DynamicConfig } from "../services/dynamicform.config";
 import { DynamicFieldConfig, DynamicFieldConfigCache } from "../models";
 import {
   defineHiddenProp,
@@ -31,7 +31,7 @@ import { isObservable } from "rxjs";
 import { debounceTime, distinctUntilChanged, startWith } from "rxjs/operators";
 
 @Component({
-  selector: "formly-field",
+  selector: "dynamicform-field",
   template: "<ng-template #container></ng-template>",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -2,12 +2,12 @@ import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { FieldType } from "../../../../../idynamic-form/core/src/lib/core";
 
 @Component({
-  selector: "formly-field-radio",
+  selector: "dynamicform-field-radio",
   template: `
     <div>
       <div
         *ngFor="
-          let option of to.options | formlySelectOptions: field | async;
+          let option of to.options | dynamicformSelectOptions: field | async;
           let i = index
         "
         [ngClass]="{
@@ -27,7 +27,7 @@ import { FieldType } from "../../../../../idynamic-form/core/src/lib/core";
           [attr.value]="option.value"
           [value]="option.value"
           [formControl]="formControl"
-          [formlyAttributes]="field"
+          [dynamicformAttributes]="field"
           [attr.disabled]="
             option.disabled || formControl.disabled ? true : null
           "

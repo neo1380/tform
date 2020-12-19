@@ -16,16 +16,16 @@ import {
   DynamicFormOptions,
   DynamicFieldConfigCache,
 } from "../models";
-import { DynamicFormBuilder } from "../services/formly.builder";
-import { DynamicConfig } from "../services/formly.config";
+import { DynamicFormBuilder } from "../services/dynamicform.builder";
+import { DynamicConfig } from "../services/dynamicform.config";
 import { clone } from "../utils";
 import { switchMap, filter, take } from "rxjs/operators";
 import { clearControl } from "../extensions/field-form/utils";
 
 @Component({
-  selector: "formly-form",
+  selector: "dynamic-form",
   template: `
-    <formly-field *ngFor="let f of fields" [field]="f"></formly-field>
+    <dynamicform-field *ngFor="let f of fields" [field]="f"></dynamicform-field>
   `,
   providers: [DynamicFormBuilder],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -115,8 +115,6 @@ export class DynamicForm implements DoCheck, OnChanges, OnDestroy {
       )
       .subscribe(() =>
         this.ngZone.runGuarded(() => {
-          // runGuarded is used to keep in sync the expression changes
-          // https://github.com/ngx-formly/ngx-formly/issues/2095
           this.checkExpressionChange();
           this.modelChange.emit((this._modelChangeValue = clone(this.model)));
         })

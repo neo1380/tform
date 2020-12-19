@@ -1,4 +1,4 @@
-import { DynamicConfig } from "../../services/formly.config";
+import { DynamicConfig } from "../../services/dynamicform.config";
 import {
   DynamicExtension,
   ValidatorOption,
@@ -6,7 +6,7 @@ import {
 } from "../../models";
 import { AbstractControl, Validators, ValidatorFn } from "@angular/forms";
 import {
-  FORMLY_VALIDATORS,
+  DYNAMICFORM_VALIDATORS,
   defineHiddenProp,
   isPromise,
   observe,
@@ -63,7 +63,7 @@ export class FieldValidationExtension implements DynamicExtension {
     field: DynamicFieldConfigCache
   ): ValidatorFn {
     let VALIDATORS = [];
-    FORMLY_VALIDATORS.forEach((opt) =>
+    DYNAMICFORM_VALIDATORS.forEach((opt) =>
       observe(
         field,
         ["templateOptions", opt],

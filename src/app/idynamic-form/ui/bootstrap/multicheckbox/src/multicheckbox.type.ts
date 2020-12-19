@@ -2,12 +2,12 @@ import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { FieldType } from "../../../../../idynamic-form/core/src/lib/core";
 
 @Component({
-  selector: "formly-field-multicheckbox",
+  selector: "dynamicform-field-multicheckbox",
   template: `
     <div>
       <div
         *ngFor="
-          let option of to.options | formlySelectOptions: field | async;
+          let option of to.options | dynamicformSelectOptions: field | async;
           let i = index
         "
         [ngClass]="{
@@ -27,7 +27,7 @@ import { FieldType } from "../../../../../idynamic-form/core/src/lib/core";
           [class.custom-control-input]="to.formCheck.indexOf('custom') === 0"
           [value]="option.value"
           [checked]="isChecked(option)"
-          [formlyAttributes]="field"
+          [dynamicformAttributes]="field"
           (change)="onChange(option.value, $event.target.checked)"
         />
         <label

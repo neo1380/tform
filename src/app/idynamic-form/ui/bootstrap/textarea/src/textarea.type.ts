@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { FieldType } from "../../../../../idynamic-form/core/src/lib/core";
 
 @Component({
-  selector: "formly-field-textarea",
+  selector: "dynamicform-field-textarea",
   template: `
     <textarea
       [formControl]="formControl"
@@ -10,7 +10,7 @@ import { FieldType } from "../../../../../idynamic-form/core/src/lib/core";
       [rows]="to.rows"
       class="form-control"
       [class.is-invalid]="showError"
-      [formlyAttributes]="field"
+      [dynamicformAttributes]="field"
     >
     </textarea>
   `,

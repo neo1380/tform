@@ -5,7 +5,7 @@ import {
   Optional,
 } from "@angular/core";
 import { FormGroup, FormArray, FormGroupDirective } from "@angular/forms";
-import { DynamicConfig } from "./formly.config";
+import { DynamicConfig } from "./dynamicform.config";
 import {
   DynamicFieldConfig,
   DynamicFormOptions,

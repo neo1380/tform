@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { FieldType } from "../../../../../idynamic-form/core/src/lib/core";
 
 @Component({
-  selector: "formly-field-checkbox",
+  selector: "dynamicform-field-checkbox",
   template: `
     <div
       [ngClass]="{
@@ -23,7 +23,7 @@ import { FieldType } from "../../../../../idynamic-form/core/src/lib/core";
         [class.custom-control-input]="to.formCheck.indexOf('custom') === 0"
         [indeterminate]="to.indeterminate && formControl.value == null"
         [formControl]="formControl"
-        [formlyAttributes]="field"
+        [dynamicformAttributes]="field"
       />
       <label
         *ngIf="to.formCheck !== 'nolabel'"

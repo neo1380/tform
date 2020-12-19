@@ -1,0 +1,9 @@
+{
+  "name": "@ngx-formly/bootstrap",
+  "version": "0.0.0-FORMLY-VERSION",
+  "license": "MIT",
+  "peerDependencies": {
+    "@ngx-formly/core": "0.0.0-FORMLY-VERSION",
+    "bootstrap": "^4.0.0"
+  }
+}

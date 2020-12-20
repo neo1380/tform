@@ -13,4 +13,4 @@ import { FieldType } from "../templates/field.type";
   `,
   styleUrls: ["./ng-select.type.component.scss"],
 })
-export class FormlyFieldNgSelect extends FieldType {}
+export class DynamicFormNgSelect extends FieldType {}

@@ -3,7 +3,8 @@
   <button type="submit" class="btn btn-default">Submit</button>
 </form> -->
 
-<section class="col-12">
+<!--sample form examples-->
+<!-- <section class="col-12">
   <form class="basic-container" [formGroup]="form" (ngSubmit)="submit()">
     <dynamic-form
       [model]="model"
@@ -20,7 +21,7 @@
       Reset
     </button>
   </form>
-</section>
+</section> -->
 
 <!--ng select example -->
 
@@ -34,3 +35,22 @@
   </dynamic-form>
   <button>Submit</button>
 </form> -->
+
+<!--typeahead examples with iselect-->
+
+<div class="container">
+  <form class="basic-container" [formGroup]="form" (ngSubmit)="submit(form)">
+    <dynamic-form
+      [model]="model"
+      [fields]="fields"
+      [options]="options"
+      [form]="form"
+    >
+    </dynamic-form>
+    <button>Submit</button>
+  </form>
+</div>
+
+<hr />
+
+<pre>Model: {{ model | json }}</pre>

@@ -8,10 +8,17 @@ import { DynamicModule } from "./idynamic-form/core/src/lib/core";
 import { DynamicSelectModule } from "./idynamic-form/core/select";
 import { DynamicBootstrapModule } from "./idynamic-form/ui/bootstrap/src/lib/bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
-import { FormlyFieldNgSelect } from "./idynamic-form/core/src/lib/types/ng-select.type";
+import { DynamicFormNgSelect } from "./idynamic-form/core/src/lib/types/ng-select.type";
+import { DynamicFormNgSelectHeader } from "./idynamic-form/core/src/lib/types/ng-select-type-with-header-template";
+import { DynamicFormTypeahead } from "./idynamic-form/core/src/lib/types/typeahead.type.component";
 
 @NgModule({
-  declarations: [AppComponent, FormlyFieldNgSelect],
+  declarations: [
+    AppComponent,
+    DynamicFormNgSelect,
+    DynamicFormTypeahead,
+    DynamicFormNgSelectHeader,
+  ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
@@ -22,7 +29,17 @@ import { FormlyFieldNgSelect } from "./idynamic-form/core/src/lib/types/ng-selec
       types: [
         {
           name: "ng-select",
-          component: FormlyFieldNgSelect,
+          component: DynamicFormNgSelect,
+          wrappers: ["form-field"],
+        },
+        {
+          name: "typeahead",
+          component: DynamicFormTypeahead,
+          wrappers: ["form-field"],
+        },
+        {
+          name: "ng-select-header",
+          component: DynamicFormNgSelectHeader,
           wrappers: ["form-field"],
         },
       ],
@@ -34,6 +51,10 @@ import { FormlyFieldNgSelect } from "./idynamic-form/core/src/lib/types/ng-selec
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [FormlyFieldNgSelect],
+  entryComponents: [
+    DynamicFormNgSelect,
+    DynamicFormTypeahead,
+    DynamicFormNgSelectHeader,
+  ],
 })
 export class AppModule {}

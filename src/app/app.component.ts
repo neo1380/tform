@@ -5,6 +5,70 @@ import {
   DynamicFormOptions,
 } from "../app/idynamic-form/core/src/lib/core";
 
+import { of as observableOf } from "rxjs";
+
+const states = [
+  "Alabama",
+  "Alaska",
+  "American Samoa",
+  "Arizona",
+  "Arkansas",
+  "California",
+  "Colorado",
+  "Connecticut",
+  "Delaware",
+  "District Of Columbia",
+  "Federated States Of Micronesia",
+  "Florida",
+  "Georgia",
+  "Guam",
+  "Hawaii",
+  "Idaho",
+  "Illinois",
+  "Indiana",
+  "Iowa",
+  "Kansas",
+  "Kentucky",
+  "Louisiana",
+  "Maine",
+  "Marshall Islands",
+  "Maryland",
+  "Massachusetts",
+  "Michigan",
+  "Minnesota",
+  "Mississippi",
+  "Missouri",
+  "Montana",
+  "Nebraska",
+  "Nevada",
+  "New Hampshire",
+  "New Jersey",
+  "New Mexico",
+  "New York",
+  "North Carolina",
+  "North Dakota",
+  "Northern Mariana Islands",
+  "Ohio",
+  "Oklahoma",
+  "Oregon",
+  "Palau",
+  "Pennsylvania",
+  "Puerto Rico",
+  "Rhode Island",
+  "South Carolina",
+  "South Dakota",
+  "Tennessee",
+  "Texas",
+  "Utah",
+  "Vermont",
+  "Virgin Islands",
+  "Virginia",
+  "Washington",
+  "West Virginia",
+  "Wisconsin",
+  "Wyoming",
+];
+
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -13,12 +77,19 @@ import {
 export class AppComponent {
   form = new FormGroup({});
   model: any = {};
-  options: DynamicFormOptions = {
+  /* options: DynamicFormOptions = {
     formState: {
       awesomeIsForced: false,
     },
+  }; */
+  options = {
+    formState: {
+      selectedModel: this.model,
+    },
   };
-  fields: DynamicFieldConfig[] = [
+
+  /**sample for examples */
+  /*   fields: DynamicFieldConfig[] = [
     {
       key: "text",
       type: "input",
@@ -118,7 +189,7 @@ export class AppComponent {
       },
       hideExpression: "!model.radioKey",
     },
-  ];
+  ]; */
 
   /* iselect example 1 */
   /* fields: DynamicFieldConfig[] = [
@@ -139,6 +210,117 @@ export class AppComponent {
       },
     },
   ]; */
+
+  /*iselect type ahead example */
+  /*  fields: DynamicFieldConfig[] = [
+    {
+      key: "name",
+      type: "input",
+      templateOptions: {
+        label: "",
+        required: true,
+      },
+    },
+    {
+      key: "state",
+      type: "typeahead",
+      templateOptions: {
+        required: true,
+        placeholder: "Search for a state:",
+        search$: (term) => {
+          if (!term || term === "") {
+            return observableOf(states);
+          }
+
+          return observableOf(
+            states
+              .filter((v) => v.toLowerCase().indexOf(term.toLowerCase()) > -1)
+              .slice(0, 10)
+          );
+        },
+      },
+    },
+  ]; */
+
+  /*sample SRA form */
+  fields: DynamicFieldConfig[] = [
+    {
+      key: "cde",
+      type: "typeahead",
+      templateOptions: {
+        required: true,
+        placeholder: "Search for a CDE:",
+        search$: (term) => {
+          if (!term || term === "") {
+            return observableOf(states);
+          }
+          return observableOf(
+            states
+              .filter((v) => v.toLowerCase().indexOf(term.toLowerCase()) > -1)
+              .slice(0, 10)
+          );
+        },
+      },
+    },
+    {
+      key: "selectedRowConstant",
+      type: "radio",
+      templateOptions: {
+        type: "radio",
+        label: "",
+        required: true,
+        name: "selectedRowConstant",
+        options: [
+          {
+            value: "exclude",
+            label: "Exclude Rows By Constant",
+            key: "excludeRowConstant",
+          },
+          {
+            value: "include",
+            label: "Include Rows By Constant",
+            key: "includeRowConstant",
+          },
+        ],
+      },
+    },
+    {
+      key: "country",
+      className: "my-custom-style mb-5",
+      type: "input",
+      templateOptions: {
+        label: "field 2",
+        placeholder: "",
+      },
+      hideExpression: (model: any, formState: any) => {
+        // access to the main model can be through `this.model` or `formState` or `model
+        if (
+          formState.selectedModel &&
+          formState.selectedModel.selectedRowConstant
+        ) {
+          return formState.selectedModel.selectedRowConstant === "exclude";
+        }
+        return true;
+      },
+    },
+    {
+      key: "user",
+      className: "my-custom-style mt-5",
+      type: "ng-select-header",
+      templateOptions: {
+        required: true,
+        placeholder: "Select a user:",
+        options: [
+          { id: 1, fistname: "foo", lastname: "1" },
+          { id: 2, fistname: "foo", lastname: "2" },
+          { id: 3, fistname: "bar", lastname: "1" },
+          { id: 4, fistname: "bar", lastname: "2" },
+        ],
+        valueProp: "id",
+        labelProp: (opt) => `${opt.fistname} ${opt.lastname}`,
+      },
+    },
+  ];
 
   submit() {
     if (this.form.valid) {

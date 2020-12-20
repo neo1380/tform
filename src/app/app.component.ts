@@ -18,7 +18,7 @@ export class AppComponent {
       awesomeIsForced: false,
     },
   };
-  fields: DynamicFieldConfig[] = [
+  /*  fields: DynamicFieldConfig[] = [
     {
       key: "text",
       type: "input",
@@ -117,6 +117,26 @@ export class AppComponent {
         ],
       },
       hideExpression: "!model.radioKey",
+    },
+  ]; */
+
+  /* iselect example 1 */
+  fields: DynamicFieldConfig[] = [
+    {
+      key: "user",
+      type: "ng-select",
+      templateOptions: {
+        required: true,
+        placeholder: "Select a user:",
+        options: [
+          { id: 1, fistname: "foo", lastname: "1" },
+          { id: 2, fistname: "foo", lastname: "2" },
+          { id: 3, fistname: "bar", lastname: "1" },
+          { id: 4, fistname: "bar", lastname: "2" },
+        ],
+        valueProp: "id",
+        labelProp: (opt) => `${opt.fistname} ${opt.lastname}`,
+      },
     },
   ];
 

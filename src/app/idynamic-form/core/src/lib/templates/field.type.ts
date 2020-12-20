@@ -1,7 +1,6 @@
 import { Input, Directive } from "@angular/core";
 import { DynamicFieldConfig } from "../models";
 
-@Directive({})
 export abstract class FieldType<
   F extends DynamicFieldConfig = DynamicFieldConfig
 > {

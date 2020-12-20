@@ -9,7 +9,6 @@ import {
   findControl,
 } from "../extensions/field-form/utils";
 
-@Directive({})
 export abstract class FieldArrayType<
     F extends DynamicFieldConfig = DynamicFieldConfig
   >

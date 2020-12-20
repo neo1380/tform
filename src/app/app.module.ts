@@ -8,7 +8,7 @@ import { DynamicModule } from "./idynamic-form/core/src/lib/core";
 import { DynamicSelectModule } from "./idynamic-form/core/select";
 import { DynamicBootstrapModule } from "./idynamic-form/ui/bootstrap/src/lib/bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
-import { FormlyFieldNgSelect } from "./types/ng-select.type";
+import { FormlyFieldNgSelect } from "./idynamic-form/core/src/lib/types/ng-select.type";
 
 @NgModule({
   declarations: [AppComponent, FormlyFieldNgSelect],

@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { FieldType } from "../idynamic-form/core/src/lib/core";
+import { FieldType } from "../templates/field.type";
 
 @Component({
   selector: "formly-field-ng-select",

@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { FieldType } from "../templates/field.type";
 
 @Component({
-  selector: "formly-field-ng-select-header",
+  selector: "dynamicform-field-ng-select-header",
   template: `
     <ng-select
       [bindValue]="'value'"

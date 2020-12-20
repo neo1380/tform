@@ -11,7 +11,7 @@ import {
 } from "rxjs/operators";
 
 @Component({
-  selector: "formly-field-typeahead",
+  selector: "dynamic-field-typeahead",
   template: `
     <ng-select
       [items]="options$ | async"
